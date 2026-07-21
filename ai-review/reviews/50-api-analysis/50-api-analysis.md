@@ -13,7 +13,7 @@ Do **not** perform detailed reviews of architecture, security, performance, data
 All findings and scoring must follow the standards defined in:
 
 ```
-framework/05-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---
@@ -177,7 +177,7 @@ reports/api-review.md
 Follow the format defined in:
 
 ```
-framework/05-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---
@@ -429,7 +429,7 @@ Provide:
 Follow the structure defined in:
 
 ```
-framework/05-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---

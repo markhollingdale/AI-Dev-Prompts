@@ -15,7 +15,7 @@ Do **not** perform detailed reviews of architecture, code quality, security, per
 All findings and scoring must follow the standards defined in:
 
 ```
-framework/05-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---
@@ -128,7 +128,7 @@ reports/typescript-review.md
 Follow the format defined in:
 
 ```
-framework/05-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---
@@ -398,7 +398,7 @@ Provide:
 Follow the structure defined in:
 
 ```
-framework/05-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---

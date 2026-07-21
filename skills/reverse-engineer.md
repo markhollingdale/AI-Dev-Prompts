@@ -1,0 +1,1 @@
+Assume you are a master of [insert skill] with 20+ years of experience. Reverse engineer the process that got you there, and build be a day-by-day plan to reach that level as fast as humanly possible using only free resources.

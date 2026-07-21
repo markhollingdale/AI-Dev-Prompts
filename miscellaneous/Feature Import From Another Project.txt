@@ -1,0 +1,14 @@
+Analyse how feature X is implemented in project1.
+
+Produce a migration plan for implementing it in project2.
+
+Identify:
+- files to copy
+- files to modify
+- npm packages required
+- database changes
+- environment variables
+- API routes
+- potential issues
+
+Do not make changes yet.

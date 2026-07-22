@@ -34,7 +34,7 @@ What review would you like to run?
 11. Cost Analysis
 12. Maintainability
 13. Summary (aggregates existing reviews)
-14. Specification (generates implementation plan from all reviews)
+14. Specification (generates implementation plan - will ask which severity level)
 ```
 
 Based on the selection, read the corresponding review document from the paths below and follow its instructions exactly.

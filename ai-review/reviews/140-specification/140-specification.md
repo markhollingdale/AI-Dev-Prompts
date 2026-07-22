@@ -2,7 +2,7 @@
 
 ## Objective
 
-Generate a comprehensive, phase-based implementation specification that addresses all findings from the 12 engineering reviews.
+Generate a comprehensive, phase-based implementation specification that addresses findings from the 12 engineering reviews at a specific severity level.
 
 This document does **not** evaluate code quality or identify new issues - that work has already been done by the review reports.
 
@@ -15,6 +15,29 @@ All findings and scoring must follow the standards defined in:
 ```
 framework/20-review-framework.md
 ```
+
+---
+
+# Severity Selection
+
+Before generating the specification, ask the user which severity level they want to generate:
+
+```
+Which severity level would you like to generate a specification for?
+
+1. Critical (must fix before production)
+2. High (should fix before production)
+3. Medium (should fix in next development cycle)
+4. Low (nice to have improvements)
+```
+
+Based on the selection, generate a specification document for that severity level only.
+
+This approach:
+- Reduces document size and context requirements
+- Allows prioritization (e.g., skip Low if not needed)
+- Makes documents more manageable for AI processing
+- Enables incremental remediation by severity
 
 ---
 
@@ -64,29 +87,33 @@ Extract from each:
 
 ---
 
-# Phase 2 - Organize by Severity and Review
+# Phase 2 - Organize by Review
 
-Group all findings into 48 phases following this structure:
+Group all findings for the selected severity into 12 phases following this structure:
 
-| Phase Range | Severity | Review Order |
-|-------------|----------|--------------|
-| Phases 1-12 | Critical | Architecture (10) → Security (20) → Performance (30) → Database (40) → API (50) → Code Quality (60) → TypeScript (70) → Accessibility (80) → SEO (90) → Production Readiness (100) → Cost Analysis (110) → Maintainability (120) |
-| Phases 13-24 | High | Same order as above |
-| Phases 25-36 | Medium | Same order as above |
-| Phases 37-48 | Low | Same order as above |
+| Phase | Review |
+|-------|--------|
+| Phase 1 | Architecture (10) |
+| Phase 2 | Security (20) |
+| Phase 3 | Performance (30) |
+| Phase 4 | Database (40) |
+| Phase 5 | API (50) |
+| Phase 6 | Code Quality (60) |
+| Phase 7 | TypeScript (70) |
+| Phase 8 | Accessibility (80) |
+| Phase 9 | SEO (90) |
+| Phase 10 | Production Readiness (100) |
+| Phase 11 | Cost Analysis (110) |
+| Phase 12 | Maintainability (120) |
 
 **Phase numbering:**
-- Phase 1: Critical Architecture findings
-- Phase 2: Critical Security findings
-- Phase 3: Critical Performance findings
+- Phase 1: [Selected Severity] Architecture findings
+- Phase 2: [Selected Severity] Security findings
+- Phase 3: [Selected Severity] Performance findings
 - ...
-- Phase 12: Critical Maintainability findings
-- Phase 13: High Architecture findings
-- Phase 14: High Security findings
-- ...
-- Phase 48: Low Maintainability findings
+- Phase 12: [Selected Severity] Maintainability findings
 
-If a review has no findings at a particular severity level, skip that phase and note it as "No findings at this severity level."
+If a review has no findings at the selected severity level, skip that phase and note it as "No findings at this severity level."
 
 ---
 
@@ -95,8 +122,16 @@ If a review has no findings at a particular severity level, skip that phase and 
 Create:
 
 ```
-docs/ai-review/reports/[project-name]-140-specification.md
+docs/ai-review/reports/[project-name]-140-specification-[severity].md
 ```
+
+Where `[severity]` is one of: `critical`, `high`, `medium`, or `low` (lowercase).
+
+Example filenames:
+- `business-template-140-specification-critical.md`
+- `business-template-140-specification-high.md`
+- `business-template-140-specification-medium.md`
+- `business-template-140-specification-low.md`
 
 Follow the format defined in:
 
@@ -111,7 +146,7 @@ The specification must include:
 ### 1. Report Metadata Header
 
 ```markdown
-# Implementation Specification
+# Implementation Specification - [Severity] Findings
 
 | | |
 |---|---|
@@ -119,29 +154,32 @@ The specification must include:
 | **Date** | [YYYY-MM-DD] |
 | **Framework Version** | [Current version] |
 | **Reviewer** | [AI model used] |
+| **Severity Level** | [Critical/High/Medium/Low] |
 | **Total Phases** | [Number of phases with findings] |
-| **Total Findings** | [Total count across all severities] |
+| **Total Findings** | [Total count for this severity level] |
 ```
 
 ### 2. Executive Summary
 
 Provide a concise overview:
 
-- Total findings by severity
-- Estimated total remediation effort
-- Highest priority items (top 5 Critical findings)
-- Production readiness assessment
+- Total findings for this severity level
+- Breakdown by review (e.g., "Architecture: 3 findings, Security: 2 findings, ...")
+- Estimated total remediation effort for this severity level
+- Highest priority items (top 5 findings for this severity)
+- Production readiness impact (especially for Critical/High)
 - Recommended approach (phased vs. sprint-based)
 
 ### 3. Overview and Goals
 
 Explain:
 
-- What this specification covers
-- How phases are organized
+- What this specification covers (findings at [severity] level)
+- How phases are organized (one phase per review, 12 phases total)
 - How to use this document (mark tasks complete, track progress)
 - Dependencies between phases
 - Validation approach (typecheck, lint, test after each phase)
+- Relationship to other severity specifications (if applicable)
 
 ### 4. Ground Rules
 
@@ -156,11 +194,11 @@ Establish project-wide rules:
 
 ### 5. Phase-by-Phase Breakdown
 
-For each phase (1-48), create a section following this template:
+For each phase (1-12), create a section following this template:
 
 ---
 
-## Phase X — [Severity] [Review Name] Issues
+## Phase X — [Review Name] ([Severity] Findings)
 
 **Goal:** Address all [severity] findings from the [review name] review.
 
@@ -442,9 +480,14 @@ List cross-phase dependencies and risks:
 
 | Dependency | Impact | Mitigation |
 |------------|--------|------------|
-| Phase 1 (Architecture) must complete before Phase 13 (High Architecture) | Structural changes affect later work | Complete Critical phases first |
+| Phase 1 (Architecture) changes may affect other phases | Structural changes require testing | Complete Architecture phase first |
 | Phase 2 (Security) may require database migrations | Migration conflicts | Coordinate with Phase 4 (Database) |
 | [etc.] | [etc.] | [etc.] |
+
+Also note dependencies on other severity specifications if applicable:
+- Critical specification should be completed first
+- High specification depends on Critical being resolved
+- [etc.]
 
 ### 8. Validation Strategy
 
@@ -473,11 +516,11 @@ Define how to validate the work:
 
 Define measurable outcomes:
 
-- [ ] All Critical findings resolved
-- [ ] All High findings resolved or explicitly deferred with rationale
-- [ ] Overall engineering score improves by [X] points
-- [ ] Production readiness: YES
-- [ ] Zero Critical security vulnerabilities
+- [ ] All [severity] findings resolved
+- [ ] All acceptance criteria met for each phase
+- [ ] No regressions introduced
+- [ ] Code quality metrics improved (if applicable)
+- [ ] Production readiness improved (especially for Critical/High)
 - [ ] [Add project-specific metrics]
 
 ### 10. Decision Log

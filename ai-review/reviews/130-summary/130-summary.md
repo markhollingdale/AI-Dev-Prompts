@@ -229,16 +229,23 @@ Suggest:
 
 ---
 
-## 12. Implementation Specification
+## 12. Implementation Specifications
 
-If an implementation specification exists at `[project-name]-140-specification.md`, reference it and summarise:
+Check for implementation specifications at:
+- `[project-name]-140-specification-critical.md`
+- `[project-name]-140-specification-high.md`
+- `[project-name]-140-specification-medium.md`
+- `[project-name]-140-specification-low.md`
 
+For each specification that exists, summarise:
+
+- Severity level
 - Total phases
-- Total findings by severity
+- Total findings
 - Estimated total effort
 - Progress (if any phases have been completed)
 
-If no specification exists, recommend generating one using option 14 from the runner.
+If no specifications exist, recommend generating them using option 14 from the runner. Suggest starting with Critical, then High, then Medium. Low can be skipped if not needed.
 
 ---
 

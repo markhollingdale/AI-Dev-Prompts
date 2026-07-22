@@ -1,27 +1,431 @@
-Create a comprehensive architecture document for this project as [docs/ai-review/reports/architecture.md](docs/ai-review/reports/architecture.md).
+# Architecture Analysis
 
-Do NOT describe what the project does or its business purpose. Focus purely on:
+## Objective
 
-1. **Technology Stack** — Every framework, library, package with exact versions and what it's used for
-2. **Project Structure** — Every directory, every file, what lives where
-3. **Routing & Layouts** — Route groups, layouts, how pages are organized
-4. **Configuration System** — How config is loaded, resolved, overridden at runtime
-5. **Component Architecture** — How components are organized, key patterns, reusable shells/wrappers
-6. **API Layer** — tRPC setup, routers, middleware chain, context creation
-7. **Authentication** — Auth library choice, setup, session management, RBAC/permissions model
-8. **Database** — ORM, schema (table counts and purposes), migrations, connection setup
-9. **Security** — What security measures exist AND what's missing (CSP, rate limiting, input validation, etc.)
-10. **External Integrations** — Email, storage, analytics, monitoring — how each connects, what env vars they need, setup instructions with URLs
-11. **Environment Variables** — Every variable, what it does, whether it's required, validation schema
-12. **Reusable Code** — Any cross-cutting utilities, hooks, patterns worth extracting
+Perform a comprehensive software architecture review of this project.
 
-Then create a second file [docs/ai-review/reports/architecture-review.md] that is a critical audit:
+Your goal is to understand and document **how the application is built**, evaluate the architectural quality, and identify opportunities for improvement.
 
-1. Rate each architectural area 0-10 with a one-line reason
-2. List every issue found, ranked by priority (Critical > High > Medium)
-3. For each issue, explain the problem, why it matters, and provide concrete fix code/solution
-4. Call out what patterns are worth keeping for future projects
-5. Call out what should be skipped as project-specific
-6. Notes on consistency patterns observed (good or bad)
+This review should focus **only on architecture**.
 
-Be thorough. Read every key file: package.json, tsconfig, next.config, all layouts, all providers, the main lib files, the server/trpc setup, the schema, the env validation. Do not summarize — read the actual code.
+Do **not** perform detailed reviews of security, performance, SEO, accessibility, cost, testing or production readiness. Those areas are covered by separate review documents.
+
+All findings and scoring must follow the standards defined in:
+
+```
+review-framework.md
+```
+
+---
+
+# Phase 1 - Architecture Documentation
+
+Create:
+
+```
+docs/architecture.md
+```
+
+This document should become the definitive technical reference for the project's architecture.
+
+Do **not** describe the business purpose or product functionality.
+
+Document the implementation only.
+
+---
+
+## 1. Technology Stack
+
+Document every significant technology including:
+
+- Frameworks
+- Libraries
+- Runtime
+- Build tools
+- ORM
+- Database
+- Authentication
+- Styling
+- Validation
+- Deployment
+- Monitoring
+- Analytics
+- Email
+- Storage
+
+For each include:
+
+- Version
+- Purpose
+- How it integrates
+- Major dependencies
+
+---
+
+## 2. Project Structure
+
+Document:
+
+- Directory structure
+- Major folders
+- Key files
+- Feature organisation
+- Shared libraries
+- Server vs Client separation
+
+Explain why the project is organised this way.
+
+---
+
+## 3. Routing Architecture
+
+Document:
+
+- Route groups
+- Layout hierarchy
+- Nested layouts
+- Loading boundaries
+- Error boundaries
+- Server Components
+- Client Components
+- Route protection
+
+---
+
+## 4. Configuration Architecture
+
+Document:
+
+- Configuration files
+- Environment validation
+- Runtime configuration
+- Feature flags
+- Build configuration
+- Shared configuration patterns
+
+---
+
+## 5. Component Architecture
+
+Document:
+
+- Component organisation
+- UI architecture
+- Shared components
+- Layout components
+- Hooks
+- Providers
+- Composition patterns
+
+---
+
+## 6. API Architecture
+
+Document:
+
+- tRPC structure
+- Routers
+- Procedures
+- Middleware
+- Context creation
+- Validation flow
+- Error handling architecture
+
+Do not perform security analysis.
+
+---
+
+## 7. Authentication Architecture
+
+Document:
+
+- Authentication provider
+- Session management
+- User model
+- Permission model
+- Role architecture
+
+Do not review security implementation.
+
+---
+
+## 8. Database Architecture
+
+Document:
+
+- ORM
+- Schema organisation
+- Table responsibilities
+- Relationships
+- Migrations
+- Repository patterns
+- Transaction strategy
+
+Do not review performance or indexing.
+
+---
+
+## 9. External Services
+
+Document:
+
+- Third-party integrations
+- Storage
+- Payments
+- Email
+- Monitoring
+- Analytics
+
+Explain how they integrate.
+
+---
+
+## 10. Environment Variables
+
+Document:
+
+Every environment variable including:
+
+- Purpose
+- Required
+- Optional
+- Validation
+- Default behaviour
+
+---
+
+## 11. Cross-Cutting Patterns
+
+Identify reusable architecture patterns such as:
+
+- Service layer
+- Repository layer
+- Shared utilities
+- Error handling
+- Logging
+- Validation
+- Configuration
+- Dependency Injection (if applicable)
+
+---
+
+# Phase 2 - Architecture Review
+
+Create:
+
+```
+docs/architecture-review.md
+```
+
+Follow the format defined in:
+
+```
+review-framework.md
+```
+
+---
+
+## Evaluate
+
+Review the architecture against the following principles.
+
+### Separation of Concerns
+
+Evaluate whether responsibilities are clearly separated.
+
+---
+
+### Cohesion
+
+Evaluate whether related functionality is grouped appropriately.
+
+---
+
+### Coupling
+
+Evaluate dependency relationships.
+
+Identify unnecessary coupling.
+
+---
+
+### SOLID
+
+Evaluate compliance with:
+
+- Single Responsibility
+- Open / Closed
+- Liskov
+- Interface Segregation
+- Dependency Inversion
+
+---
+
+### DRY
+
+Identify duplicated architecture.
+
+---
+
+### KISS
+
+Identify unnecessary complexity.
+
+---
+
+### YAGNI
+
+Identify unnecessary abstractions.
+
+---
+
+### Modularity
+
+Evaluate:
+
+- Feature isolation
+- Reusability
+- Extensibility
+
+---
+
+### Scalability
+
+Evaluate whether the architecture supports:
+
+- Growth
+- Additional features
+- Additional developers
+- Multi-tenancy
+- Horizontal scaling
+
+Do not perform infrastructure or performance analysis.
+
+---
+
+### Maintainability
+
+Evaluate:
+
+- Consistency
+- Readability
+- Discoverability
+- Documentation
+- Developer experience
+
+---
+
+### Consistency
+
+Review naming conventions.
+
+Review architectural consistency.
+
+Review folder organisation.
+
+Review project conventions.
+
+---
+
+### Technical Debt
+
+Identify:
+
+- Temporary solutions
+- Workarounds
+- Obsolete abstractions
+- Duplicate patterns
+- Missing abstractions
+- Over-engineering
+- Under-engineering
+
+---
+
+### Future Readiness
+
+Evaluate whether the architecture would support future additions such as:
+
+- Mobile applications
+- APIs
+- White-labelling
+- Localisation
+- AI integrations
+- Plugin systems
+- Background workers
+
+---
+
+# Required Findings
+
+Every issue must include:
+
+- Severity
+- Explanation
+- Business impact
+- Technical impact
+- Recommendation
+- Example implementation (where appropriate)
+- Estimated effort
+
+Do not duplicate findings that belong in other reviews.
+
+For example:
+
+- Missing indexes → Database Review
+- Missing CSP → Security Review
+- Slow queries → Performance Review
+- Bundle size → Performance Review
+- Missing tests → Code Quality Review
+
+Instead, reference the appropriate review.
+
+---
+
+# Positive Findings
+
+Identify architecture decisions worth keeping.
+
+Explain why they are good.
+
+---
+
+# Reusable Patterns
+
+Highlight architectural patterns that could be reused in future projects.
+
+---
+
+# Final Recommendation
+
+Provide:
+
+- Overall Architecture Score
+- Category Scores
+- Production Readiness (Architecture only)
+- Highest Priority Improvements
+- Estimated Remediation Effort
+- Overall Recommendation
+
+Follow the structure defined in:
+
+```
+review-framework.md
+```
+
+---
+
+# Review Behaviour
+
+Read the implementation before making conclusions.
+
+Inspect the source code rather than making assumptions.
+
+Do not invent architecture that is not present.
+
+When uncertain, clearly state assumptions.
+
+Provide evidence-based recommendations.
+
+Recognise good architectural decisions as well as weaknesses.
+
+Prioritise pragmatic improvements over theoretical perfection.

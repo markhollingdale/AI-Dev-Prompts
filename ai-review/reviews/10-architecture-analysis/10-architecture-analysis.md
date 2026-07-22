@@ -13,7 +13,7 @@ Do **not** perform detailed reviews of security, performance, SEO, accessibility
 All findings and scoring must follow the standards defined in:
 
 ```
-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---
@@ -23,7 +23,7 @@ review-framework.md
 Create:
 
 ```
-docs/architecture.md
+docs/ai-review/reports/architecture.md
 ```
 
 This document should become the definitive technical reference for the project's architecture.
@@ -214,13 +214,13 @@ Identify reusable architecture patterns such as:
 Create:
 
 ```
-docs/architecture-review.md
+docs/ai-review/reports/architecture-review.md
 ```
 
 Follow the format defined in:
 
 ```
-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---
@@ -409,7 +409,7 @@ Provide:
 Follow the structure defined in:
 
 ```
-review-framework.md
+framework/20-review-framework.md
 ```
 
 ---

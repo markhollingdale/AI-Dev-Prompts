@@ -31,22 +31,31 @@ Unlike traditional prompts, these documents define engineering standards. Each r
 ### What's Included
 
 - **Framework documents** — Define the review philosophy, output format, severity levels, and scoring methodology
-- **Review prompts** — Individual review documents for different areas (architecture, security, performance, database, API, code quality, TypeScript, accessibility, and more)
-- **Example outputs** — Sample review documents showing what the generated output should look like
+- **Review documents** — Individual review standards for different areas (architecture, security, performance, database, API, code quality, TypeScript, accessibility, SEO, production readiness, cost analysis, maintainability, and summary)
+- **Runner** — An orchestrator that asks which review to run and guides the AI through the process
 
 ### How It Works
+
+From the project you want to review, point your AI assistant at:
+
+```
+ai-review/runners/run-review.md
+```
+
+The runner will ask which review to run, load the appropriate review document, and guide the AI through the process.
 
 Each review follows a two-phase structure:
 
 1. **Phase 1 — Documentation**: The AI creates a descriptive document of how the area is implemented
 2. **Phase 2 — Assessment**: The AI creates a scored review with findings, severity ratings, and recommendations
 
-Reviews are designed to be completed in a specific order, with each building on the previous. The framework ensures consistent output across all reviews, making it easy to compare results across projects.
+Reports are generated in the project being reviewed at:
 
-### Current Status
+```
+docs/ai-review/reports/
+```
 
-- **8 complete reviews**: Architecture, Security, Performance, Database, API, Code Quality, TypeScript, Accessibility
-- **4 in progress**: SEO, Production Readiness, Cost Analysis, Maintainability
+Once all 12 reviews are complete, the Summary review aggregates all findings into a single engineering health report.
 
 See the `ai-review/framework/` directory for detailed documentation on the review philosophy and methodology.
 

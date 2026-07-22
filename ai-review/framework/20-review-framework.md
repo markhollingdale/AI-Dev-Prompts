@@ -18,6 +18,37 @@ Every review in this repository should produce reports using this structure.
 
 
 
+\# Report Metadata Header
+
+
+
+Every report must begin with the following metadata block:
+
+
+
+```
+
+# [Review Name]
+
+| | |
+|---|---|
+| **Project** | [Project name] |
+| **Date** | [YYYY-MM-DD] |
+| **Framework Version** | [Current version] |
+| **Git Commit** | [Commit hash if available] |
+| **Reviewer** | [AI model used] |
+```
+
+
+
+This ensures reports can be compared across time and projects.
+
+
+
+\---
+
+
+
 \# 1. Executive Summary
 
 

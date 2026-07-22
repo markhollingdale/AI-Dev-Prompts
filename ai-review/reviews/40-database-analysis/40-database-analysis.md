@@ -23,7 +23,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-reports/database.md
+docs/ai-review/reports/database.md
 ```
 
 Document the complete database architecture.
@@ -169,7 +169,7 @@ Document:
 Create:
 
 ```
-reports/database-review.md
+docs/ai-review/reports/database-review.md
 ```
 
 Follow the format defined in:

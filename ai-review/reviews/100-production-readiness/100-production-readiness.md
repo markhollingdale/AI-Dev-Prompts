@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-reports/production-readiness.md
+docs/ai-review/reports/production-readiness.md
 ```
 
 Document how the application is prepared for production.
@@ -156,7 +156,7 @@ Document:
 Create:
 
 ```
-reports/production-readiness-review.md
+docs/ai-review/reports/production-readiness-review.md
 ```
 
 Follow the format defined in:

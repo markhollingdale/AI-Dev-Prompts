@@ -26,6 +26,40 @@ The goal is to produce objective, repeatable reviews that identify risks, techni
 
 
 
+# How to Run a Review
+
+
+
+From the project you want to review, read:
+
+
+
+```
+
+runners/run-review.md
+```
+
+
+
+This will ask which review to run and guide the AI through the process.
+
+
+
+Reports are generated in the project being reviewed at:
+
+
+
+```
+
+docs/ai-review/reports/
+```
+
+
+
+\---
+
+
+
 \# Philosophy
 
 

@@ -29,7 +29,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-reports/security.md
+docs/ai-review/reports/security.md
 ```
 
 Document the application's security architecture.
@@ -180,7 +180,7 @@ Document:
 Create:
 
 ```
-reports/security-review.md
+docs/ai-review/reports/security-review.md
 ```
 
 Follow the format defined in:

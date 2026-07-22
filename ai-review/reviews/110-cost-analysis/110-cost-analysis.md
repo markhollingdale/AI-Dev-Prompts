@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-reports/cost-analysis.md
+docs/ai-review/reports/cost-analysis.md
 ```
 
 Document how the application incurs operational costs.
@@ -186,7 +186,7 @@ Examples:
 Create:
 
 ```
-reports/cost-analysis-review.md
+docs/ai-review/reports/cost-analysis-review.md
 ```
 
 Follow the format defined in:

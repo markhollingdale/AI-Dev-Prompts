@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-reports/code-quality.md
+docs/ai-review/reports/code-quality.md
 ```
 
 Document how the project is organised from a code quality perspective.
@@ -130,7 +130,7 @@ Document:
 Create:
 
 ```
-reports/code-quality-review.md
+docs/ai-review/reports/code-quality-review.md
 ```
 
 Follow the format defined in:

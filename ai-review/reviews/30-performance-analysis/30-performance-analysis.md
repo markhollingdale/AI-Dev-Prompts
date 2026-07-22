@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-reports/performance.md
+docs/ai-review/reports/performance.md
 ```
 
 Document the application's performance architecture.
@@ -153,7 +153,7 @@ Explain how external dependencies affect performance.
 Create:
 
 ```
-reports/performance-review.md
+docs/ai-review/reports/performance-review.md
 ```
 
 Follow the format defined in:

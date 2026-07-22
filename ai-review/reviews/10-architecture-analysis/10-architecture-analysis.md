@@ -1,4 +1,4 @@
-Create a comprehensive architecture document for this project as [docs/architecture.md](docs/architecture.md).
+Create a comprehensive architecture document for this project as [docs/ai-review/reports/architecture.md](docs/ai-review/reports/architecture.md).
 
 Do NOT describe what the project does or its business purpose. Focus purely on:
 
@@ -15,7 +15,7 @@ Do NOT describe what the project does or its business purpose. Focus purely on:
 11. **Environment Variables** — Every variable, what it does, whether it's required, validation schema
 12. **Reusable Code** — Any cross-cutting utilities, hooks, patterns worth extracting
 
-Then create a second file [docs/architecture-review.md] that is a critical audit:
+Then create a second file [docs/ai-review/reports/architecture-review.md] that is a critical audit:
 
 1. Rate each architectural area 0-10 with a one-line reason
 2. List every issue found, ranked by priority (Critical > High > Medium)

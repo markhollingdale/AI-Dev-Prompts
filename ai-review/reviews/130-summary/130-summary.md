@@ -229,7 +229,20 @@ Suggest:
 
 ---
 
-## 12. Final Recommendation
+## 12. Implementation Specification
+
+If an implementation specification exists at `[project-name]-140-specification.md`, reference it and summarise:
+
+- Total phases
+- Total findings by severity
+- Estimated total effort
+- Progress (if any phases have been completed)
+
+If no specification exists, recommend generating one using option 14 from the runner.
+
+---
+
+## 13. Final Recommendation
 
 Provide a concise engineering conclusion.
 

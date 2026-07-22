@@ -31,7 +31,7 @@ Unlike traditional prompts, these documents define engineering standards. Each r
 ### What's Included
 
 - **Framework documents** — Define the review philosophy, output format, severity levels, and scoring methodology
-- **Review documents** — Individual review standards for different areas (architecture, security, performance, database, API, code quality, TypeScript, accessibility, SEO, production readiness, cost analysis, maintainability, and summary)
+- **Review documents** — Individual review standards for different areas (architecture, security, performance, database, API, code quality, TypeScript, accessibility, SEO, production readiness, cost analysis, maintainability, summary, and specification)
 - **Runner** — An orchestrator that asks which review to run and guides the AI through the process
 
 ### How It Works

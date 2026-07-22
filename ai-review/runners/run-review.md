@@ -34,6 +34,7 @@ What review would you like to run?
 11. Cost Analysis
 12. Maintainability
 13. Summary (aggregates existing reviews)
+14. Specification (generates implementation plan from all reviews)
 ```
 
 Based on the selection, read the corresponding review document from the paths below and follow its instructions exactly.
@@ -55,6 +56,7 @@ Based on the selection, read the corresponding review document from the paths be
 | 11 | Cost Analysis | `ai-review/reviews/110-cost-analysis/110-cost-analysis.md` |
 | 12 | Maintainability | `ai-review/reviews/120-maintainability/120-maintainability.md` |
 | 13 | Summary | `ai-review/reviews/130-summary/130-summary.md` |
+| 14 | Specification | `ai-review/reviews/140-specification/140-specification.md` |
 
 ## Report Output
 

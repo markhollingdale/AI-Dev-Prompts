@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-docs/ai-review/reports/seo.md
+docs/ai-review/reports/[project-name]-90-seo.md
 ```
 
 Document the application's SEO implementation.
@@ -165,7 +165,7 @@ Document:
 Create:
 
 ```
-docs/ai-review/reports/seo-review.md
+docs/ai-review/reports/[project-name]-90-seo-review.md
 ```
 
 Follow the format defined in:

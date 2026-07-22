@@ -23,7 +23,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-docs/ai-review/reports/api.md
+docs/ai-review/reports/[project-name]-50-api.md
 ```
 
 Document the complete API architecture.
@@ -171,7 +171,7 @@ Document:
 Create:
 
 ```
-docs/ai-review/reports/api-review.md
+docs/ai-review/reports/[project-name]-50-api-review.md
 ```
 
 Follow the format defined in:

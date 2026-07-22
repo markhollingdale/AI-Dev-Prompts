@@ -35,7 +35,6 @@ Every report must begin with the following metadata block:
 | **Project** | [Project name] |
 | **Date** | [YYYY-MM-DD] |
 | **Framework Version** | [Current version] |
-| **Git Commit** | [Commit hash if available] |
 | **Reviewer** | [AI model used] |
 ```
 

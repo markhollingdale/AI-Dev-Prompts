@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-docs/ai-review/reports/accessibility.md
+docs/ai-review/reports/[project-name]-80-accessibility.md
 ```
 
 Document the application's accessibility implementation.
@@ -136,7 +136,7 @@ Document:
 Create:
 
 ```
-docs/ai-review/reports/accessibility-review.md
+docs/ai-review/reports/[project-name]-80-accessibility-review.md
 ```
 
 Follow the format defined in:

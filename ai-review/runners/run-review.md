@@ -64,6 +64,16 @@ Create the output folder in the **current project being reviewed** (not in AI De
 docs/ai-review/reports/
 ```
 
-Produce all reports in this folder within the current project.
+**Determine the project name** from `package.json` (name field) or the current folder name. Convert to lowercase with hyphens (e.g., "My App" becomes "my-app").
+
+**All report files must be prefixed with the project name and review number:**
+
+```
+docs/ai-review/reports/[project-name]-[number]-[report-name].md
+```
+
+Example: `business-template-10-architecture-review.md`
+
+**Note:** Review reports may contain sensitive information. Consider adding `docs/ai-review/reports/` to your project's `.gitignore` file.
 
 Do not begin writing until all referenced documents have been read.

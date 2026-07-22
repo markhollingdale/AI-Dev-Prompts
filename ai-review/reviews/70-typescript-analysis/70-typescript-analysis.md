@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-docs/ai-review/reports/typescript.md
+docs/ai-review/reports/[project-name]-70-typescript.md
 ```
 
 Document how TypeScript is used throughout the project.
@@ -122,7 +122,7 @@ Document:
 Create:
 
 ```
-docs/ai-review/reports/typescript-review.md
+docs/ai-review/reports/[project-name]-70-typescript-review.md
 ```
 
 Follow the format defined in:

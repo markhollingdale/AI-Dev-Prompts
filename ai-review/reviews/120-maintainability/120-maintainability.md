@@ -25,7 +25,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-docs/ai-review/reports/maintainability.md
+docs/ai-review/reports/[project-name]-120-maintainability.md
 ```
 
 Document the engineering practices that affect long-term maintenance.
@@ -161,7 +161,7 @@ Document:
 Create:
 
 ```
-docs/ai-review/reports/maintainability-review.md
+docs/ai-review/reports/[project-name]-120-maintainability-review.md
 ```
 
 Follow the format defined in:

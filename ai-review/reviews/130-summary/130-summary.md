@@ -28,18 +28,18 @@ docs/ai-review/reports/
 
 | Review | Expected Files |
 |--------|----------------|
-| Architecture | `architecture.md`, `architecture-review.md` |
-| Security | `security.md`, `security-review.md` |
-| Performance | `performance.md`, `performance-review.md` |
-| Database | `database.md`, `database-review.md` |
-| API | `api.md`, `api-review.md` |
-| Code Quality | `code-quality.md`, `code-quality-review.md` |
-| TypeScript | `typescript.md`, `typescript-review.md` |
-| Accessibility | `accessibility.md`, `accessibility-review.md` |
-| SEO | `seo.md`, `seo-review.md` |
-| Production Readiness | `production-readiness.md`, `production-readiness-review.md` |
-| Cost Analysis | `cost-analysis.md`, `cost-analysis-review.md` |
-| Maintainability | `maintainability.md`, `maintainability-review.md` |
+| Architecture | `[project-name]-10-architecture.md`, `[project-name]-10-architecture-review.md` |
+| Security | `[project-name]-20-security.md`, `[project-name]-20-security-review.md` |
+| Performance | `[project-name]-30-performance.md`, `[project-name]-30-performance-review.md` |
+| Database | `[project-name]-40-database.md`, `[project-name]-40-database-review.md` |
+| API | `[project-name]-50-api.md`, `[project-name]-50-api-review.md` |
+| Code Quality | `[project-name]-60-code-quality.md`, `[project-name]-60-code-quality-review.md` |
+| TypeScript | `[project-name]-70-typescript.md`, `[project-name]-70-typescript-review.md` |
+| Accessibility | `[project-name]-80-accessibility.md`, `[project-name]-80-accessibility-review.md` |
+| SEO | `[project-name]-90-seo.md`, `[project-name]-90-seo-review.md` |
+| Production Readiness | `[project-name]-100-production-readiness.md`, `[project-name]-100-production-readiness-review.md` |
+| Cost Analysis | `[project-name]-110-cost-analysis.md`, `[project-name]-110-cost-analysis-review.md` |
+| Maintainability | `[project-name]-120-maintainability.md`, `[project-name]-120-maintainability-review.md` |
 
 If any review reports are missing, list them and stop.
 
@@ -67,7 +67,7 @@ Extract from each:
 Create:
 
 ```
-docs/ai-review/reports/summary.md
+docs/ai-review/reports/[project-name]-130-summary.md
 ```
 
 Follow the format defined in:

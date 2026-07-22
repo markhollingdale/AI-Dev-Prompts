@@ -23,7 +23,7 @@ framework/20-review-framework.md
 Create:
 
 ```
-docs/ai-review/reports/architecture.md
+docs/ai-review/reports/[project-name]-10-architecture.md
 ```
 
 This document should become the definitive technical reference for the project's architecture.
@@ -214,7 +214,7 @@ Identify reusable architecture patterns such as:
 Create:
 
 ```
-docs/ai-review/reports/architecture-review.md
+docs/ai-review/reports/[project-name]-10-architecture-review.md
 ```
 
 Follow the format defined in:

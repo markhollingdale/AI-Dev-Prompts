@@ -536,6 +536,83 @@ Track decisions made during implementation:
 
 Space for general observations, patterns, and lessons learned during implementation.
 
+### 12. Implementation Instructions
+
+Include clear instructions for tracking progress:
+
+- Update phase status (NOT STARTED → IN PROGRESS → COMPLETE)
+- Check off acceptance criteria as completed
+- Update phase summary checklists when phases are complete
+- Record decisions in the Decision Log
+- Document deviations and insights in Notes sections
+
+This section ensures the implementing AI knows to keep the specification updated as work progresses.
+
+---
+
+# Implementation Instructions
+
+**IMPORTANT:** When implementing this specification, you MUST update the document to track progress. This is not optional - it helps maintain context and provides a record of what has been completed.
+
+## Status Updates
+
+Update the status field for each phase as you work:
+
+- **NOT STARTED** → **IN PROGRESS** when you begin working on a phase
+- **IN PROGRESS** → **COMPLETE** when all findings in the phase are addressed
+
+Example:
+```markdown
+## Phase 1 — Architecture (Critical Findings)
+
+**Status:** IN PROGRESS
+```
+
+## Acceptance Criteria
+
+As you complete each finding's acceptance criteria, check them off:
+
+```markdown
+**Acceptance Criteria:**
+
+- [x] Login endpoint returns 429 after 5 failed attempts within 15 minutes
+- [x] Account is locked after 10 consecutive failed attempts
+- [ ] Rate limit headers are included in responses
+```
+
+## Phase Summary Checklist
+
+When you complete a phase, check off the phase summary items:
+
+```markdown
+**Phase 1 Checklist:**
+
+- [x] All findings addressed
+- [x] All acceptance criteria met
+- [x] Code reviewed
+- [x] Tests updated
+- [x] Documentation updated
+- [x] Committed: "fix: add rate limiting to authentication endpoints"
+```
+
+## Decision Log
+
+When you make implementation decisions, add them to the Decision Log table:
+
+```markdown
+| # | Date | Phase | Decision | Rationale |
+|---|------|-------|----------|-----------|
+| D1 | 2024-01-15 | Phase 1 | Used Redis for rate limiting | Better performance than in-memory for distributed systems |
+```
+
+## Notes and Observations
+
+Record any deviations, issues, or insights in the Notes section of each finding or in the general Notes and Observations section at the end.
+
+## Progress Tracking
+
+Before starting work on a finding, update its status. After completing it, verify all acceptance criteria are checked and update the phase status. This ensures the specification always reflects the current state of implementation.
+
 ---
 
 # Review Behaviour

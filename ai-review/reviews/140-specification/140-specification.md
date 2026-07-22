@@ -4,9 +4,11 @@
 
 Generate a comprehensive, phase-based implementation specification that addresses all findings from the 12 engineering reviews.
 
-This document does **not** perform new analysis of the codebase.
+This document does **not** evaluate code quality or identify new issues - that work has already been done by the review reports.
 
-It reads existing review reports and **expands** their findings into a detailed, actionable specification that a junior/mid developer can follow to remediate all identified issues without needing to re-read the review reports or figure out which files need changes.
+It reads existing review reports and **expands** their findings into a detailed, actionable specification. To do this, it must read the codebase to identify which files need changes, but it uses the reviews' judgments about what the problems are and how to fix them.
+
+The result is a specification that a junior/mid developer can follow without needing to re-read the review reports or figure out which files need changes.
 
 All findings and scoring must follow the standards defined in:
 
@@ -497,10 +499,11 @@ Space for general observations, patterns, and lessons learned during implementat
 
 Read all existing review reports before producing the specification.
 
-Do not perform new analysis of the codebase.
+**Important distinction:** You must **read the codebase** to expand findings into actionable steps, but you do not need to **analyze** the code (evaluate quality, identify new issues, or make judgments about problems). The reviews have already done the analysis. Your job is to translate their findings into specific implementation instructions.
 
-However, you must **expand** the review findings into actionable implementation steps:
+To do this effectively, you must:
 
+- **Read the codebase** to identify which files need changes
 - **Extract findings** directly from the review reports (IDs, severity, recommendations)
 - **Expand recommendations** into step-by-step implementation instructions
 - **Identify all affected files** - if a review says "fix all routers" or "apply pattern to all components", read the codebase to find every file that needs changes and list them explicitly

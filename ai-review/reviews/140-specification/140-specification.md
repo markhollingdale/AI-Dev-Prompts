@@ -165,6 +165,7 @@ Provide a concise overview:
 
 - Total findings for this severity level
 - Breakdown by review (e.g., "Architecture: 3 findings, Security: 2 findings, ...")
+- Difficulty breakdown (e.g., "Simple: 5 findings, Moderate: 3 findings, Complex: 2 findings")
 - Estimated total remediation effort for this severity level
 - Highest priority items (top 5 findings for this severity)
 - Production readiness impact (especially for Critical/High)
@@ -192,7 +193,46 @@ Establish project-wide rules:
 - [ ] Commit after each phase with descriptive messages
 - [ ] Ask for clarification if a task is ambiguous
 
-### 5. Phase-by-Phase Breakdown
+### 5. Difficulty Classification
+
+Each finding must be classified by difficulty level to help select the appropriate AI model for implementation.
+
+**Difficulty Levels:**
+
+**Simple** (Low risk, straightforward)
+- Clear instructions with exact code provided
+- Changes are isolated and easily reversible
+- Mistakes caught immediately by tests/linting
+- Examples: Adding missing validation, updating imports, simple refactoring, config updates
+
+**Moderate** (Medium risk, requires context)
+- Need to understand how changes affect other parts
+- Some judgment calls required
+- Mistakes might not be immediately obvious
+- Examples: Splitting components, adding middleware, refactoring modules
+
+**Complex** (High risk, deep reasoning)
+- Architectural changes affecting multiple systems
+- Need to understand complex interactions
+- Mistakes could cause subtle bugs or security issues
+- Examples: Service layer extraction, transaction fixes, security-critical changes
+
+**Recommended AI Models (OpenCode Go):**
+
+| Difficulty | Model | Use Case |
+|------------|-------|----------|
+| Simple | Deepseek V4 Flash | Mechanical tasks, clear instructions |
+| Moderate | Qwen 3.7 Plus | Everyday driver, balanced reasoning |
+| Complex | Kimi K3 or GLM 5.2 | Deep reasoning, high-stakes changes |
+
+**Classification Criteria:**
+
+Base difficulty on **risk** and **complexity**, not time:
+- **Risk**: What breaks if done wrong? (config change vs. security fix)
+- **Complexity**: How much reasoning/context needed? (isolated change vs. system-wide)
+- **Reversibility**: Easy to undo vs. hard to rollback
+
+### 6. Phase-by-Phase Breakdown
 
 For each phase (1-12), create a section following this template:
 
@@ -215,6 +255,10 @@ For each phase (1-12), create a section following this template:
 **Severity:** [Critical/High/Medium/Low]
 
 **Category:** [e.g., Authentication, Performance, Database]
+
+**Difficulty:** [Simple/Moderate/Complex]
+
+**Recommended Model:** [Deepseek V4 Flash / Qwen 3.7 Plus / Kimi K3 or GLM 5.2]
 
 **Problem:**
 
@@ -317,6 +361,10 @@ Include one fully worked example phase to show the expected format and detail le
 **Severity:** Critical
 
 **Category:** Authentication
+
+**Difficulty:** Complex
+
+**Recommended Model:** Kimi K3 or GLM 5.2
 
 **Problem:**
 
@@ -474,7 +522,7 @@ _Space for the developer to record decisions, deviations, or observations during
 
 ---
 
-### 7. Dependencies and Risks
+### 8. Dependencies and Risks
 
 List cross-phase dependencies and risks:
 
@@ -489,7 +537,7 @@ Also note dependencies on other severity specifications if applicable:
 - High specification depends on Critical being resolved
 - [etc.]
 
-### 8. Validation Strategy
+### 9. Validation Strategy
 
 Define how to validate the work:
 
@@ -512,7 +560,7 @@ Define how to validate the work:
 - [ ] Re-run relevant reviews to verify improvements
 - [ ] Generate new summary report
 
-### 9. Success Metrics
+### 10. Success Metrics
 
 Define measurable outcomes:
 
@@ -523,7 +571,7 @@ Define measurable outcomes:
 - [ ] Production readiness improved (especially for Critical/High)
 - [ ] [Add project-specific metrics]
 
-### 10. Decision Log
+### 11. Decision Log
 
 Track decisions made during implementation:
 
@@ -532,11 +580,11 @@ Track decisions made during implementation:
 | D1 | [date] | [phase] | [decision] | [rationale] |
 | D2 | [date] | [phase] | [decision] | [rationale] |
 
-### 11. Notes and Observations
+### 12. Notes and Observations
 
 Space for general observations, patterns, and lessons learned during implementation.
 
-### 12. Implementation Instructions
+### 13. Implementation Instructions
 
 Include clear instructions for tracking progress:
 

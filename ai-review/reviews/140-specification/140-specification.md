@@ -250,6 +250,18 @@ For each phase (1-12), create a section following this template:
 
 **Dependencies:** [List any dependencies on other phases or external factors]
 
+### Difficulty Summary
+
+| # | Finding | Difficulty | Recommended Model |
+|---|---------|------------|-------------------|
+| X.1 | [Finding ID] - [Brief Title] | Simple | Deepseek V4 Flash |
+| X.2 | [Finding ID] - [Brief Title] | Moderate | Qwen 3.7 Plus |
+| X.3 | [Finding ID] - [Brief Title] | Complex | Kimi K3 or GLM 5.2 |
+
+_All difficulty ratings are listed above for easy reference. See individual sections below for full implementation details._
+
+---
+
 ### X.1 [Finding ID] - [Brief Title]
 
 **Severity:** [Critical/High/Medium/Low]
@@ -355,6 +367,14 @@ Include one fully worked example phase to show the expected format and detail le
 **Estimated Effort:** 2 days
 
 **Dependencies:** None
+
+### Difficulty Summary
+
+| # | Finding | Difficulty | Recommended Model |
+|---|---------|------------|-------------------|
+| SEC-001 | Missing Rate Limiting on Authentication Endpoints | Complex | Kimi K3 or GLM 5.2 |
+
+---
 
 ### SEC-001 - Missing Rate Limiting on Authentication Endpoints
 

@@ -22,6 +22,12 @@ runners/run-review.md
 
 This will ask which review to run and guide the AI through the process.
 
+To run **all 16 reviews in sequence** (then the Summary), read:
+
+```
+runners/run-full-suite.md
+```
+
 Reports are generated in the project being reviewed at:
 
 ```

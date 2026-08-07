@@ -39,6 +39,7 @@ What review would you like to run?
 16. Portability & Reusability
 17. Summary (aggregates existing reviews - may run on a partial set, will warn about missing reviews)
 18. Specification (generates implementation plan - will ask which severity level)
+19. Full Suite (runs all 16 reviews in order, then Summary - see run-full-suite.md)
 ```
 
 Based on the selection, read the corresponding review document from the paths below and follow its instructions exactly.
@@ -65,6 +66,9 @@ Based on the selection, read the corresponding review document from the paths be
 | 16 | Portability & Reusability | `../ai-review/reviews/180-portability-analysis/180-portability-analysis.md` |
 | 17 | Summary | `../ai-review/reviews/999-summary/999-summary.md` |
 | 18 | Specification | `../ai-review/reviews/140-specification/140-specification.md` |
+| 19 | Full Suite | `../ai-review/runners/run-full-suite.md` |
+
+If the user selects **19 (Full Suite)**, stop here and follow `run-full-suite.md` instead.
 
 ## Report Output
 

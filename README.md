@@ -33,6 +33,7 @@ Unlike traditional prompts, these documents define engineering standards. Each r
 - **Framework documents** — Define the review philosophy, output format, severity levels, and scoring methodology
 - **Review documents** — Individual review standards for different areas (architecture, security, performance, database, API, code quality, TypeScript, accessibility, SEO, production readiness, cost analysis, maintainability, testing, business logic, privacy & compliance, and portability)
 - **Runner** — An orchestrator that asks which review to run and guides the AI through the process
+- **Full-suite runner** — Runs all 16 reviews sequentially, then the Summary
 
 ### How It Works
 
@@ -43,6 +44,12 @@ ai-review/runners/run-review.md
 ```
 
 The runner will ask which review to run, load the appropriate review document, and guide the AI through the process.
+
+To run the complete suite in one go (all 16 reviews in order, then the Summary), point your AI assistant at:
+
+```
+ai-review/runners/run-full-suite.md
+```
 
 Each review follows a two-phase structure:
 

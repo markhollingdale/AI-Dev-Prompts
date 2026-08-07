@@ -31,7 +31,7 @@ Unlike traditional prompts, these documents define engineering standards. Each r
 ### What's Included
 
 - **Framework documents** — Define the review philosophy, output format, severity levels, and scoring methodology
-- **Review documents** — Individual review standards for different areas (architecture, security, performance, database, API, code quality, TypeScript, accessibility, SEO, production readiness, cost analysis, maintainability, summary, and specification)
+- **Review documents** — Individual review standards for different areas (architecture, security, performance, database, API, code quality, TypeScript, accessibility, SEO, production readiness, cost analysis, maintainability, testing, business logic, privacy & compliance, and portability)
 - **Runner** — An orchestrator that asks which review to run and guides the AI through the process
 
 ### How It Works
@@ -55,7 +55,7 @@ Reports are generated in the project being reviewed at:
 docs/ai-review/reports/
 ```
 
-Once all 12 reviews are complete, the Summary review aggregates all findings into a single engineering health report.
+Once all 16 reviews are complete, the Summary review aggregates all findings into a single engineering health report. The Summary may also run on a partial set of reviews — it will warn about any that are missing.
 
 See the `ai-review/framework/` directory for detailed documentation on the review philosophy and methodology.
 
@@ -87,4 +87,4 @@ These prompts are designed to be:
 
 ## Versioning
 
-Current version: **v1.0.0**
+Current version: **v1.1.0**

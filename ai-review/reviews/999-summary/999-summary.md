@@ -1,5 +1,7 @@
 # Engineering Review Summary
 
+Version: **v1.1.0**
+
 ## Objective
 
 Aggregate and synthesise findings from all completed engineering reviews into a single summary report.
@@ -18,13 +20,21 @@ framework/20-review-framework.md
 
 # Prerequisites
 
-Before producing the summary, verify that the following reports exist in:
+This review is numbered **999** so it is always the last document in the suite.
+
+The Summary may run with **any subset** of the review reports present. If any reports are missing:
+
+- List every missing review report in an explicit **warning block** at the top of the report.
+- Produce the summary using only the reports that exist.
+- Do **not** silently omit missing reviews — the warning must be prominent and must name them.
+
+Before producing the summary, check which of the following reports exist in:
 
 ```
 docs/ai-review/reports/
 ```
 
-## Required Review Reports
+## Review Reports
 
 | Review | Expected Files |
 |--------|----------------|
@@ -40,16 +50,18 @@ docs/ai-review/reports/
 | Production Readiness | `[project-name]-100-production-readiness.md`, `[project-name]-100-production-readiness-review.md` |
 | Cost Analysis | `[project-name]-110-cost-analysis.md`, `[project-name]-110-cost-analysis-review.md` |
 | Maintainability | `[project-name]-120-maintainability.md`, `[project-name]-120-maintainability-review.md` |
+| Testing | `[project-name]-150-testing.md`, `[project-name]-150-testing-review.md` |
+| Business Logic | `[project-name]-160-business-logic.md`, `[project-name]-160-business-logic-review.md` |
+| Privacy & Compliance | `[project-name]-170-privacy-compliance.md`, `[project-name]-170-privacy-compliance-review.md` |
+| Portability & Reusability | `[project-name]-180-portability.md`, `[project-name]-180-portability-review.md` |
 
-If any review reports are missing, list them and stop.
-
-Do not produce a partial summary.
+Missing reports go into the warning block (§1 below). A summary is still produced from whatever exists.
 
 ---
 
 # Phase 1 - Read All Reviews
 
-Read every review report listed above.
+Read every review report that exists.
 
 Extract from each:
 
@@ -67,7 +79,7 @@ Extract from each:
 Create:
 
 ```
-docs/ai-review/reports/[project-name]-130-summary.md
+docs/ai-review/reports/[project-name]-999-summary.md
 ```
 
 Follow the format defined in:
@@ -78,7 +90,20 @@ framework/20-review-framework.md
 
 ---
 
-## 1. Executive Summary
+## 1. Warning Block
+
+If any review reports are missing, begin the report with:
+
+```
+> ⚠️ WARNING: Partial summary. The following reviews have not been completed and are NOT included:
+>
+> - [Review name] ([expected report filename])
+> - [Review name] ([expected report filename])
+>
+> The overall engineering score reflects only the completed reviews.
+```
+
+## 2. Executive Summary
 
 Provide a concise overview of the project's engineering health.
 
@@ -88,18 +113,21 @@ Include:
 - Key strengths across all reviews
 - Highest risks across all reviews
 - Production recommendation
+- Note which reviews are missing (if any)
 
 ---
 
-## 2. Overall Engineering Score
+## 3. Overall Engineering Score
 
 Calculate an overall score based on all review scores.
 
 Explain the weighting used.
 
+If the summary is partial, state that the score excludes the missing reviews.
+
 ---
 
-## 3. Review Scores Summary
+## 4. Review Scores Summary
 
 Present a table of all review scores:
 
@@ -117,10 +145,16 @@ Present a table of all review scores:
 | Production Readiness | X/100 | YES/NO |
 | Cost Analysis | X/100 | YES/NO |
 | Maintainability | X/100 | YES/NO |
+| Testing | X/100 | YES/NO |
+| Business Logic | X/100 | YES/NO |
+| Privacy & Compliance | X/100 | YES/NO |
+| Portability & Reusability | X/100 | YES/NO |
+
+Mark missing reviews as `MISSING` and exclude them from any aggregate calculations.
 
 ---
 
-## 4. Combined Severity Summary
+## 5. Combined Severity Summary
 
 Aggregate severity counts across all reviews:
 
@@ -131,9 +165,11 @@ Aggregate severity counts across all reviews:
 | Medium | X |
 | Low | X |
 
+Note if counts are partial (missing reviews).
+
 ---
 
-## 5. Production Readiness Assessment
+## 6. Production Readiness Assessment
 
 Provide an overall production readiness verdict.
 
@@ -143,18 +179,19 @@ Consider:
 - Are there any High findings that block production?
 - Which reviews are not production ready?
 - What is the overall confidence level?
+- If reviews are missing, state that the verdict is provisional.
 
 State clearly:
 
 ```
-Production Ready: YES / NO
+Production Ready: YES / NO / PROVISIONAL
 ```
 
 Explain why.
 
 ---
 
-## 6. Top Priority Improvements
+## 7. Top Priority Improvements
 
 List the highest priority improvements across all reviews.
 
@@ -168,7 +205,7 @@ Limit to the top 10-15 items.
 
 ---
 
-## 7. Remediation Roadmap
+## 8. Remediation Roadmap
 
 Suggest a phased approach to addressing findings.
 
@@ -190,7 +227,7 @@ Low priority items and future improvements.
 
 ---
 
-## 8. Estimated Total Remediation Effort
+## 9. Estimated Total Remediation Effort
 
 Sum the estimated effort across all reviews.
 
@@ -203,7 +240,7 @@ Break down by:
 
 ---
 
-## 9. Strengths Worth Preserving
+## 10. Strengths Worth Preserving
 
 Highlight the strongest engineering decisions across all reviews.
 
@@ -211,7 +248,7 @@ These are patterns and practices worth keeping.
 
 ---
 
-## 10. Patterns Worth Reusing
+## 11. Patterns Worth Reusing
 
 Identify reusable engineering patterns observed across multiple reviews.
 
@@ -219,7 +256,7 @@ These become references for future projects.
 
 ---
 
-## 11. Recommendations for Next Review Cycle
+## 12. Recommendations for Next Review Cycle
 
 Suggest:
 
@@ -229,7 +266,7 @@ Suggest:
 
 ---
 
-## 12. Implementation Specifications
+## 13. Implementation Specifications
 
 Check for implementation specifications at:
 - `[project-name]-140-specification-critical.md`
@@ -245,11 +282,11 @@ For each specification that exists, summarise:
 - Estimated total effort
 - Progress (if any phases have been completed)
 
-If no specifications exist, recommend generating them using option 14 from the runner. Suggest starting with Critical, then High, then Medium. Low can be skipped if not needed.
+If no specifications exist, recommend generating them using the Specification option from the runner. Suggest starting with Critical, then High, then Medium. Low can be skipped if not needed.
 
 ---
 
-## 13. Final Recommendation
+## 14. Final Recommendation
 
 Provide a concise engineering conclusion.
 
@@ -273,6 +310,8 @@ Do not duplicate findings.
 Aggregate and synthesise.
 
 When scores conflict between reviews, note the discrepancy.
+
+**Never silently produce a partial summary** — if reports are missing, the warning block is mandatory.
 
 Prioritise clarity and actionability.
 

@@ -65,6 +65,10 @@ docs/ai-review/reports/
 | Production Readiness | `[project-name]-100-production-readiness.md`, `[project-name]-100-production-readiness-review.md` |
 | Cost Analysis | `[project-name]-110-cost-analysis.md`, `[project-name]-110-cost-analysis-review.md` |
 | Maintainability | `[project-name]-120-maintainability.md`, `[project-name]-120-maintainability-review.md` |
+| Testing | `[project-name]-150-testing.md`, `[project-name]-150-testing-review.md` |
+| Business Logic | `[project-name]-160-business-logic.md`, `[project-name]-160-business-logic-review.md` |
+| Privacy & Compliance | `[project-name]-170-privacy-compliance.md`, `[project-name]-170-privacy-compliance-review.md` |
+| Portability & Reusability | `[project-name]-180-portability.md`, `[project-name]-180-portability-review.md` |
 
 If any review reports are missing, list them and stop.
 
@@ -89,7 +93,7 @@ Extract from each:
 
 # Phase 2 - Organize by Review
 
-Group all findings for the selected severity into 12 phases following this structure:
+Group all findings for the selected severity into 16 phases following this structure:
 
 | Phase | Review |
 |-------|--------|
@@ -105,13 +109,17 @@ Group all findings for the selected severity into 12 phases following this struc
 | Phase 10 | Production Readiness (100) |
 | Phase 11 | Cost Analysis (110) |
 | Phase 12 | Maintainability (120) |
+| Phase 13 | Testing (150) |
+| Phase 14 | Business Logic (160) |
+| Phase 15 | Privacy & Compliance (170) |
+| Phase 16 | Portability & Reusability (180) |
 
 **Phase numbering:**
 - Phase 1: [Selected Severity] Architecture findings
 - Phase 2: [Selected Severity] Security findings
 - Phase 3: [Selected Severity] Performance findings
 - ...
-- Phase 12: [Selected Severity] Maintainability findings
+- Phase 16: [Selected Severity] Portability & Reusability findings
 
 If a review has no findings at the selected severity level, skip that phase and note it as "No findings at this severity level."
 
@@ -176,7 +184,7 @@ Provide a concise overview:
 Explain:
 
 - What this specification covers (findings at [severity] level)
-- How phases are organized (one phase per review, 12 phases total)
+- How phases are organized (one phase per review, 16 phases total)
 - How to use this document (mark tasks complete, track progress)
 - Dependencies between phases
 - Validation approach (typecheck, lint, test after each phase)
@@ -234,7 +242,7 @@ Base difficulty on **risk** and **complexity**, not time:
 
 ### 6. Phase-by-Phase Breakdown
 
-For each phase (1-12), create a section following this template:
+For each phase (1-16), create a section following this template:
 
 ---
 
@@ -550,6 +558,10 @@ List cross-phase dependencies and risks:
 |------------|--------|------------|
 | Phase 1 (Architecture) changes may affect other phases | Structural changes require testing | Complete Architecture phase first |
 | Phase 2 (Security) may require database migrations | Migration conflicts | Coordinate with Phase 4 (Database) |
+| Phase 13 (Testing) work depends on code changed by other phases | Tests rewritten for removed/reworked code | Run Testing phase after other phases; add/update tests alongside each phase where practical |
+| Phase 14 (Business Logic) overlaps Phase 2 (Security) abuse findings | Duplicate or conflicting fixes | Coordinate ownership: Business Logic fixes *correctness*, Security fixes *abuse* |
+| Phase 15 (Privacy) touches auth, analytics, and logging changed by Phases 2, 10, 12 | Fixes interact | Coordinate with Security (2) and Production Readiness (10) |
+| Phase 16 (Portability) may suggest module extraction | Structural changes ripple | Coordinate with Phase 1 (Architecture) and Phase 12 (Maintainability) |
 | [etc.] | [etc.] | [etc.] |
 
 Also note dependencies on other severity specifications if applicable:

@@ -2,7 +2,7 @@
 
 **Created:** 2026-08-07
 **Last Updated:** 2026-08-07
-**Status:** Todo
+**Status:** Completed (Phase 7 smoke runs deferred — see §5/§10)
 **Reviewer:** opencode
 **Total Phases:** 8
 
@@ -156,14 +156,14 @@ However, a full read of all 14 documents surfaced **four genuine coverage gaps**
 | ----- | ------- | -------------------- | ----------------- | ------- | ---- |
 | **Baseline** | 12 | 5 (runner, 2 readmes, summary, spec) | 2 files with escapes | v1.0.0 | 2026-08-07 |
 | Phase 0 – Scope decisions | 12 | — | — | v1.0.0 | ✅ 2026-08-07 |
-| Phase 1 – Framework hardening | 12 | +1 (extension guide); Summary renamed 130→999 | 2 files cleaned | v1.0.0 | — |
-| Phase 2 – Testing review | 13 | — | — | v1.0.0 | — |
-| Phase 3 – Business Logic review | 14 | — | — | v1.0.0 | — |
-| Phase 4 – Privacy & Compliance review | 15 | — | — | v1.0.0 | — |
-| Phase 5 – Portability review | 16 | — | — | v1.0.0 | — |
-| Phase 6 – Coupled-doc sync | 16 | 5 updated + count fix | — | v1.1.0 | — |
-| Phase 7 – Project-agnostic smoke runs | 16 | — | — | v1.1.0 | — |
-| Phase 8 – Final gate | 16 | 6 (incl. extension guide) | clean | v1.1.0 | — |
+| Phase 1 – Framework hardening | 12 | +1 (extension guide); Summary renamed 130→999 | 2 files cleaned | v1.0.0 | ✅ 2026-08-07 |
+| Phase 2 – Testing review | 13 | — | — | v1.0.0 | ✅ 2026-08-07 |
+| Phase 3 – Business Logic review | 14 | — | — | v1.0.0 | ✅ 2026-08-07 |
+| Phase 4 – Privacy & Compliance review | 15 | — | — | v1.0.0 | ✅ 2026-08-07 |
+| Phase 5 – Portability review | 16 | — | — | v1.0.0 | ✅ 2026-08-07 |
+| Phase 6 – Coupled-doc sync | 16 | 5 updated + count fix | — | v1.1.0 | ✅ 2026-08-07 |
+| Phase 7 – Project-agnostic smoke runs | 16 | — | — | v1.1.0 | ⏸️ DEFERRED (user runs later) |
+| Phase 8 – Final gate | 16 | 6 (incl. extension guide) | clean | v1.1.0 | ✅ 2026-08-07 |
 
 ---
 
@@ -520,6 +520,7 @@ Create `ai-review/reviews/180-portability-analysis/180-portability-analysis.md`.
 | 007 | 1 | Runner resolves the framework directory relative to itself | Fixes the absolute-path portability bug (S2) | 2026-08-07 |
 | 008 | 7 | New reviews validated on 2–3 structurally different projects; docs must stay project-agnostic | The suite must run effectively on all projects, not be tuned to one target | 2026-08-07 |
 | 009 | All | Portability & Reusability is a "nice to have", not a core promise of the collection | Reflects user's view: good coding practice, lower priority than the other three gaps | 2026-08-07 |
+| 010 | 7 | Smoke runs deferred — user will run them later | User decision; consistency gates (Phase 8) passed without them | 2026-08-07 |
 
 ---
 
@@ -550,19 +551,21 @@ All scope questions are answered; the plan is fully scoped.
 
 - 2026-08-07: Plan created. Full read of all 14 documents + runner + framework + root README. Findings recorded in §2. No files changed yet.
 - 2026-08-07: Scope confirmed (Q1–Q6 answered): all four reviews in scope; numbering 150–180; Summary 130 → 999 with partial-run warnings; project-agnostic validation on multiple projects; v1.1.0; no Phase-2 candidates. Portability & Reusability downgraded to a "nice to have". Plan updated accordingly.
+- 2026-08-07: **Phases 1–6 and 8 implemented.** Added `framework/30-adding-a-review.md`; runner paths now relative + options 13–18; framework docs rewritten clean (no escapes), v1.1.0; Summary moved to `reviews/999-summary/999-summary.md` with partial-run warning behaviour; wrote reviews 150 (Testing), 160 (Business Logic), 170 (Privacy & Compliance), 180 (Portability & Reusability); synced all coupled docs (runner, framework readme, root README, Summary 999 tables, Specification 16-phase map + dependency matrix). Final consistency sweep clean (no escapes, no absolute paths, no stale counts/`130-summary`/v1.0.0 references).
+- 2026-08-07: **Phase 7 deferred** by user decision — project-agnostic smoke runs will be run later (recommended targets: a full-stack SaaS and a monorepo template; instructions in Phase 7 of this plan).
 
 ---
 
 ## 12. Completion Checklist
 
-- [ ] All 4 new review documents written, style-conformant, smoke-tested on 2–3 projects
-- [ ] Extension guide (`framework/30-adding-a-review.md`) created
-- [ ] Runner relative-path fix + options 15–18
-- [ ] All coupled docs updated and consistent (no stale "12" anywhere)
-- [ ] Framework v1.1.0 documented
-- [ ] Summary renumbered to 999; partial summaries with explicit warnings implemented
-- [ ] Specification 16-phase map implemented
-- [ ] Smoke run produced reports; corrections merged
-- [ ] Results Tracker fully populated
-- [ ] Decision Log closed; open questions answered
-- [ ] Plan moved to `docs/plans/completed/`
+- [x] All 4 new review documents written, style-conformant (smoke runs deferred — user runs later)
+- [x] Extension guide (`framework/30-adding-a-review.md`) created
+- [x] Runner relative-path fix + options 13–18
+- [x] All coupled docs updated and consistent (no stale "12" anywhere)
+- [x] Framework v1.1.0 documented
+- [x] Summary renumbered to 999; partial summaries with explicit warnings implemented
+- [x] Specification 16-phase map implemented
+- [x] Results Tracker fully populated
+- [x] Decision Log closed; open questions answered
+- [x] Plan moved to `docs/plans/completed/`
+- [ ] **Follow-up:** Phase 7 smoke runs (user runs later; instructions in Phase 7 section)

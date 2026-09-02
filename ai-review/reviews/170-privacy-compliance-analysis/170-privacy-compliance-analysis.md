@@ -38,8 +38,8 @@ Do not assess quality yet.
 
 Document:
 
-- Every category of personal data collected (identity, contact, location, financial, biometric, device, behavioural)
-- Where each category is stored (database tables, object storage, logs, backups, caches)
+- Every category of personal data collected (identity, contact, location, financial, biometric, device, behavioural) — **including UGC content bodies** if users can write reviews/listings (free-text often contains inadvertent PII)
+- Where each category is stored (database tables, object storage, logs, backups, caches, search indexes)
 - Data collected from users directly vs derived vs received from third parties
 - Children's data considerations (COPPA/KYCC or equivalent, if relevant)
 
@@ -124,10 +124,21 @@ Document:
 
 Document:
 
-- What logs record (request bodies? emails? IP addresses? full payloads?)
+- What logs record (request bodies? emails? IP addresses? full payloads? UGC bodies?)
 - Error reporting content (Sentry and equivalents)
-- Analytics event payloads
+- Analytics event payloads + whether **crawler bot traffic is filtered** (bot-inflated MAU is both a cost and privacy noise)
 - Any PII in logs by default
+
+---
+
+## 9b. UGC Privacy & Retention (if applicable)
+
+Document (if UGC is present):
+
+- Who can see which UGC (public, auth-only, owner-only) and whether PII inside UGC is exposed to crawlers/bots
+- Deletion of UGC: does user deletion cascade to reviews/listings/media + search index + caches + backups? Is `reported`/`hidden` UGC still exportable?
+- Moderation access: which roles can read all UGC (privacy implication for internal access)
+- Seed/demo UGC: is demo PII scrubbed before prod?
 
 ---
 
@@ -192,15 +203,16 @@ Review:
 
 ---
 
-# Retention & Deletion
+# Retention & Deletion — Including UGC Cascade
 
 Review:
 
-- Does any retention schedule exist, and is it enforced?
+- Does any retention schedule exist, and is it enforced by a job/cron (not just documented)? Cross-ref Database 40 and Production 100 — retention without a job is not retention.
 - Are deleted accounts' PII removed from backups/logs within a reasonable window?
-- Does deletion cascade to related records (profiles, media, messages, derived data)?
-- Are there orphaned PII records with no deletion path (e.g., unverified sign-ups)?
-- Is there a defined process for erasure requests?
+- Does deletion cascade to related records (profiles, media, messages, **reviews/listings + search index + caches**, derived data)?
+- Are there orphaned PII records with no deletion path (e.g., unverified sign-ups, pending moderation queue)?
+- Is there a defined process for erasure requests that includes UGC?
+- Is seed/demo PII scrubbed (Database 40 flags schema, you flag privacy leak if seed ships)?
 
 ---
 

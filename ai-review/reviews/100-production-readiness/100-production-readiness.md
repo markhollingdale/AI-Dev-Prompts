@@ -108,10 +108,12 @@ Document:
 
 Document:
 
-- Backup strategy
-- Recovery procedures
-- Disaster recovery
-- Data retention
+- Backup strategy (provider PITR window — Neon 7d, Supabase PITR, logical dumps)
+- Recovery procedures (step-by-step runbook, not "contact support")
+- **Last successful restore drill date + artifact** (branch-from-backup or point-in-time restored to staging, queries verified) — if no date, state `NEVER TESTED`
+- RTO / RPO targets vs measured drill time
+- Disaster recovery (region failure, data-loss scenario)
+- Data retention (backups vs logs vs caches)
 
 ---
 
@@ -134,9 +136,10 @@ Explain operational dependencies.
 Document:
 
 - Maintenance procedures
-- Operational runbooks
-- Incident handling
-- Release process
+- Operational runbooks (`docs/runbooks/*` — especially `pre-live-gate.md` and `vercel-neon-manual-setup.md`)
+- Incident handling (on-call, toggle owners for Attack Challenge Mode / feature kill-switch)
+- Release process (rollback, feature-flag kill-switch, progressive rollout if used)
+- Synthetic smoke: `login → create → search → view` canary that runs post-deploy (URL + schedule)
 
 ---
 
@@ -279,17 +282,19 @@ Assess reliability of asynchronous processing.
 
 ---
 
-# Backup & Disaster Recovery
+# Backup & Disaster Recovery — Proof Required
 
 Review:
 
-- Backup procedures
-- Recovery procedures
-- Restore testing
-- Data retention
-- Recovery objectives
+- Backup procedures (PITR window matches provider — Neon/Supabase 7d+)
+- Recovery procedures (runbook exists and is not "contact support")
+- **Restore testing: is there evidence of a restore?** Demand date + artifact: a branch restored from backup to staging with `SELECT COUNT(*) > 0` or equivalent. `Backup ON` with `last drill = NEVER` = **High** (Critical if no PITR at all).
+- RTO/RPO: targets vs drill-measured time; is RPO < 1h?
+- Data retention (backups vs logs — are logs retaining PII longer than DB?)
 
-Evaluate disaster recovery readiness.
+Evaluate disaster recovery readiness. If provider says "PITR enabled" but team never restored, flag — that is untested, not ready.
+
+Cross-reference: Database owns schema retention, Testing owns drill automation, you own "can we prove we restored?"
 
 ---
 
@@ -322,46 +327,49 @@ Evaluate readiness for increased demand.
 
 ---
 
-# Operational Readiness
+# Operational Readiness — Including Kill-Switch & Runbook Drill
 
 Review:
 
-- Runbooks
-- Incident response
+- Runbooks (does `docs/runbooks/pre-live-gate.md` exist and is it the single pre-launch checklist? does `vercel-neon-manual-setup.md` match dashboard state?)
+- Incident response (who is on-call, who toggles Attack Challenge Mode / feature flag off at 2am, who restores DB — names, not roles)
 - Maintenance procedures
-- Release process
-- Operational documentation
+- Release process (feature flags / progressive rollout / immediate kill-switch if no flags — can you shed load without a redeploy?)
+- Operational documentation (RTO/RPO, contacts, escalation)
 
-Determine whether the application can be effectively supported in production.
+Determine whether the application can be effectively supported in production. If the only rollback is `git revert + redeploy (8 min)` and the spike is 100 req/s, flag as **High** — you need a flag or Challenge toggle that works in seconds.
 
 ---
 
-# Testing Readiness
+# Testing Readiness — Including Synthetic Smoke
 
 Review:
 
 - Automated tests
-- Integration tests
+- Integration tests (including backup restore drill if present)
 - End-to-end tests
-- Smoke tests
-- Deployment validation
+- **Synthetic smoke / canary post-deploy:** does a job hit production after each deploy with `health → login → search → view → track` and alerts on failure? A `200` on `/api/health` alone is not a smoke test.
+- Deployment validation (Vercel preview → checks → prod gate; DB migration validated)
 
-Evaluate confidence in production deployments.
+Evaluate confidence in production deployments. No canary = deploy can break business flow while infra stays green.
+
+Reference Testing review for implementation, but flag missing gate here as operational risk.
 
 ---
 
-# Observability
+# Observability — Including SLOs & Human vs Bot Split
 
 Review:
 
-- Metrics
-- Logs
+- Metrics + **SLIs/SLOs**: p95 latency, error rate, and burn rate — is there an SLO and an alert when it burns? No SLO = no shared definition of "down".
+- Logs (including PII hygiene — cross-ref Privacy)
 - Traces
 - Dashboards
-- Alerting
-- Bot visibility: can you distinguish bot vs human traffic in logs/analytics? Are `User-Agent`, `x-forwarded-for`, route, and cache `HIT/MISS` logged? Is there a dashboard for 429 rate, bot UA share, and function invocations?
+- Alerting (who gets paged, not just emailed)
+- Bot visibility: can you distinguish bot vs human in logs/analytics? Are `User-Agent`, `x-forwarded-for`, route, cache `HIT/MISS` logged? Dashboard for `429` rate, bot UA share, function invocations?
+- Analytics trust: does PostHog/equivalent filter crawler UAs so MAU is not inflated? Is the dashboard trusted for business decisions?
 
-Assess whether production behaviour can be understood and diagnosed.
+Assess whether production behaviour can be understood and diagnosed. Logs without bot split = you can't tell if the spike is customers or GPTBot.
 
 ---
 

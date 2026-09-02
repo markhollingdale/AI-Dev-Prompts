@@ -124,8 +124,18 @@ Document:
 - Migration framework
 - Migration strategy
 - Rollback strategy
-- Seeding
+- Seeding (is demo/seed PII scrubbed before prod deploy?)
 - Initialisation
+
+---
+
+## 7b. Backups, PITR & Restore Proof
+
+Document (cross-ref Production Readiness 100 for operational drill — you own the data-plane facts):
+
+- Provider and PITR window (Neon/Supabase: PITR retention days, branch-from-restore capability, logical dump schedule if any)
+- Last successful restore drill: date, target (branch / staging clone), verification queries run — or `NEVER`
+- RTO/RPO as configured vs measured
 
 ---
 
@@ -140,16 +150,15 @@ Document:
 
 ---
 
-## 9. Data Lifecycle
+## 9. Data Lifecycle & Retention Enforcement
 
 Document:
 
-- Record creation
-- Updates
-- Soft deletes
-- Hard deletes
+- Record creation / updates
+- Soft deletes vs hard deletes (which tables are soft, hard, or never-delete — and why)
 - Archiving
-- Retention
+- Retention schedules per category + enforcement job/cron (or absence)
+- Hard-coded or seed PII in dev data that must be scrubbed before prod
 
 ---
 
@@ -266,16 +275,13 @@ Identify over-normalisation where it unnecessarily increases complexity.
 
 ---
 
-# Migrations
+# Migrations & Seeding
 
 Review:
 
-- Migration quality
-- Ordering
-- Naming
-- Safety
-- Repeatability
-- Rollback capability
+- Migration quality / ordering / naming / safety / repeatability / rollback capability
+- Seeding: does `prisma/seed.ts` or equivalent insert demo users/reviews with real-looking PII that could ship to prod? Flag if seed emails are `test@` vs plausible real addresses.
+- Migration safety under load: will the migration lock the table that a crawl storm hammers (e.g., `CREATE INDEX` without `CONCURRENTLY`, `ADD COLUMN NOT NULL` without default)?
 
 Attempt to identify migration risks.
 
@@ -294,18 +300,17 @@ Identify operations that should be transactional.
 
 ---
 
-# Data Lifecycle
+# Data Lifecycle & Retention Enforcement
 
 Review:
 
-- Record ownership
-- Audit timestamps
-- Soft delete strategy
-- Hard delete strategy
+- Record ownership / audit timestamps
+- Soft delete vs hard delete strategy (are soft-deletes ever hard-deleted? by what job?)
 - Archiving
-- Data retention
+- Data retention: does a cron/job actually enforce the schedule, or is retention "documented but not executed"? Cross-ref Privacy 170 for lawful retention, but flag here if the job is missing.
+- Seed/demo hygiene: is PII scrubbed before production deploy?
 
-Evaluate long-term maintainability.
+Evaluate long-term maintainability. Documented retention without a job is not retention.
 
 ---
 

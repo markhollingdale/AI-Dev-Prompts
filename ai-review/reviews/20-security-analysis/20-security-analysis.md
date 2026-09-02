@@ -450,9 +450,22 @@ Review:
 Review:
 
 - Registration / contact / claim / upload / report forms: is ALTCHA (or equivalent) enforced server-side on every write? Client-only check = bypass.
-- Email abuse: can an attacker trigger unlimited transactional emails (verification, reset, notifications) per IP? Is there per-IP + per-target rate limit?
+- Email abuse: can an attacker trigger unlimited transactional emails (verification, reset, notifications) per IP? Is there per-IP + per-target rate limit? Is SPF/DKIM/DMARC passing (deliverability check — cross-ref `pre-live-gate.md`)?
 - Content spam: can an unauthenticated actor create listings, reviews, comments at scale? Check throttling + moderation.
 - Honeypot / fingerprinting (if used): document secondary signals.
+
+### If UGC Is Present (reviews, comments, listings, profiles) — Conditional
+
+If the app accepts user-generated content (as this review library does), also review:
+
+- **Moderation queue:** Is every new/edited UGC item `pending` until moderated or auto-scanned? No queue = spam is live instantly.
+- **Report → triage SLA:** Can any user `report` content and is there an admin view + action (hide/delete + notify author) with audit logging? Missing report path = no takedown.
+- **Automated filters:** profanity/NSFW/URL spam heuristic or vendor (e.g., Perspective, regex) — not as sole gate, but as flag for queue.
+- **Review bombing / throttling:** Can one IP/user create 50 reviews/hr across targets? Require per-user + per-target rate limit distinct from generic API limit.
+- **Admin abuse:** Can a moderator edit/delete any content without audit trail? Verify `updatedBy` + `deletedAt` + `audit_log` and that moderator actions are not client-authorizable.
+- **Escalation & blocking:** Can admins block user + hide all their UGC in one action; is there an appeal path?
+
+Cross-ref Privacy 170 for UGC retention/deletion and Business Logic 160 for workflow correctness — you own "can it be spammed or abused by a moderator/bot?"
 
 ## C. Rate-Limit Completeness Audit
 

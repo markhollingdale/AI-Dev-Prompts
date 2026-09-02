@@ -98,13 +98,17 @@ Document:
 
 Document:
 
-- Accessibility test automation (cross-reference: Accessibility Review 80)
-- Performance / load tests (cross-reference: Performance Review 30)
-- Security tests (cross-reference: Security Review 20) — including abuse/bot/spam paths: rate-limit 429 tests, robots.txt rendering tests, spoofed UA tests
-- Visual regression tests
-- Contract tests
-- Abuse & load simulation: k6/Artillery scripts for crawl burst, search PostGIS hammer, engagement inflation; run frequency (CI vs manual)
-- Red-team drills: documented attack scenarios and pass/fail criteria (reference `runbooks/abuse-red-team-playbook.md` if present)
+- Accessibility test automation (cross-reference: Accessibility Review 80) — `axe` CLI in CI? manual screen-reader pass date?
+- Performance / load tests (cross-reference: Performance Review 30) — `k6` baseline (50 VUs steady) + `k6` crawl burst (100 VUs * 30s PostGIS), Lighthouse scores, Web Vitals
+- Security tests (cross-reference: Security Review 20) — including abuse/bot/spam paths: rate-limit 429 tests, robots.txt rendering tests, spoofed UA tests, ALTCHA bypass test
+- Visual regression tests (Chromatic / Percy or none)
+- Contract tests (if applicable)
+- Abuse & load simulation: `k6`/`Artillery` scripts for crawl burst, search PostGIS hammer, engagement inflation; run frequency (CI vs manual); reference `runbooks/abuse-red-team-playbook.md`
+- Backup & restore drill: last restore date, target branch, verification queries (cross-ref Database 40 / Production 100)
+- Synthetic smoke / canary post-deploy: `health → login → search → view → track` job, schedule, alert channel
+- Failover drill: what happens when Neon/Supabase pool exhausted, email provider 429, or TRPC batch fails — documented?
+- Browser matrix: Chrome/Firefox/Safari × mobile viewport — manual date or automated?
+- Seed hygiene: is `seed` scrubbed of PII before CI/prod?
 
 Document only. Do not assess.
 
@@ -164,14 +168,17 @@ Review:
 
 ---
 
-# E2E Tests
+# E2E & Smoke Tests — Including Post-Deploy Canary
 
 Review:
 
 - Coverage of critical user journeys
+- **Post-deploy synthetic smoke:** does CI or a cron hit production with `health → login → search → view → track`? A green CI with no prod canary still ships broken prod.
 - Reliability (flakiness, retries, timeouts)
 - Speed and parallelisation
 - Cost and maintenance burden
+
+If no smoke exists, flag **High** — it is the cheapest pre-live safety net.
 
 ---
 
@@ -269,27 +276,32 @@ Review:
 
 ---
 
-# Accessibility, Performance & Security Test Automation — Including Abuse & Load (Cross-reference, but flag missing coverage)
+# Accessibility, Performance & Security Test Automation — Including Abuse, Load & Resilience (Cross-reference, but flag missing coverage)
 
 Review (briefly, then cross-reference the owning review):
 
-- Automated a11y checks (cross-reference: Accessibility Review 80)
-- Load/performance regression tests (cross-reference: Performance Review 30)
+- Automated a11y checks — `axe` in CI or `axe:ci` job? (cross-reference: Accessibility Review 80)
+- Load/performance regression tests — `k6` baseline + burst (cross-reference: Performance Review 30)
 - Security-related tests: auth bypass, injection, abuse paths (cross-reference: Security Review 20)
+- Backup restore drill and synthetic smoke (cross-reference: Production Readiness 100, Database 40)
 
 Do not duplicate findings from those reviews — reference them.
 
 Additionally, flag missing test coverage as its own finding **here** if:
 
-- No test asserts `robots.txt` / `app/robots.ts` actually renders per-UA disallows (especially AI bots `GPTBot`, `ClaudeBot` etc) — a one-line regression can re-expose the crawl trap
-- No test asserts `429` + `Retry-After` on burst to a public read proc (e.g., 20 rapid `search.search` from same IP → at least one `TRPCError 429`)
-- No test asserts spoofed UA is still rate-limited / challenged (not bypassed by missing `x-forwarded-for` parsing)
-- No test asserts engagement counts ignore crawler UAs (IP+UA dedup still inflatable by JS crawlers)
-- No load script exists for crawl burst (`k6 run load/crawl-burst.js` with `100 VUs * 30s` on `/whats-on` permutations + `/api/trpc/search.search`)
+- **Abuse:** No test asserts `robots.txt` / `app/robots.ts` per-UA disallows (especially AI bots `GPTBot`, `ClaudeBot`) — a one-line regression re-exposes crawl trap
+- **Abuse:** No test asserts `429` + `Retry-After` on burst to a public read proc (e.g., 20 rapid `search.search` from same IP → at least one `TRPCError 429`)
+- **Abuse:** No test asserts spoofed UA still rate-limited (not bypassed by missing `x-forwarded-for` parsing) or crawler UAs ignored for engagement
+- **Abuse:** No load script for crawl burst (`k6 run load/crawl-burst.js` with `100 VUs * 30s` on `/whats-on` permutations + `/api/trpc/search.search`)
+- **Resilience:** No `k6` baseline (50 VUs steady) measuring p95 / `max_connections` headroom — you only know burst fails, not steady state
+- **Resilience:** No backup restore test (last drill `NEVER`) and no synthetic post-deploy smoke (`health → login → search → view`) — both cheap, both catch deploy breakage
+- **UI:** No visual regression (Chromatic/Percy) or `axe` gate — styles/a11y regress silently
+- **Supply:** No pinned GH Action SHAs / `npm audit` gate (cross-ref Security supply chain — file missing gate here as CI debt)
+- **Data:** No seed scrub check — `seed.ts` with plausible PII could ship to prod
 
-If `tests/` has zero abuse tests, that is a **High** — not Low — because without them, a future refactor can silently remove the limiter or the `revalidate` and you won't know until the bill arrives. Reference Security/Cost for the production impact, but file the coverage gap here.
+If `tests/` has zero abuse/resilience tests, that is a **High** — not Low — because future refactors silently remove `revalidate` or pool config and you learn from the bill/outage. Reference Security/Cost/Production for impact, but file the coverage gap here.
 
-See `runbooks/abuse-red-team-playbook.md` for 6 scripted scenarios you can codify as `k6` or `vitest` integration tests.
+See `runbooks/abuse-red-team-playbook.md` (6 scenarios) and `runbooks/pre-live-gate.md` (gate checklist) for codifiable scripts.
 
 ---
 

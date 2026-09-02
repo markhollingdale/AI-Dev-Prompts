@@ -100,9 +100,11 @@ Document:
 
 - Accessibility test automation (cross-reference: Accessibility Review 80)
 - Performance / load tests (cross-reference: Performance Review 30)
-- Security tests (cross-reference: Security Review 20)
+- Security tests (cross-reference: Security Review 20) — including abuse/bot/spam paths: rate-limit 429 tests, robots.txt rendering tests, spoofed UA tests
 - Visual regression tests
 - Contract tests
+- Abuse & load simulation: k6/Artillery scripts for crawl burst, search PostGIS hammer, engagement inflation; run frequency (CI vs manual)
+- Red-team drills: documented attack scenarios and pass/fail criteria (reference `runbooks/abuse-red-team-playbook.md` if present)
 
 Document only. Do not assess.
 
@@ -267,7 +269,7 @@ Review:
 
 ---
 
-# Accessibility, Performance & Security Test Automation
+# Accessibility, Performance & Security Test Automation — Including Abuse & Load (Cross-reference, but flag missing coverage)
 
 Review (briefly, then cross-reference the owning review):
 
@@ -276,6 +278,18 @@ Review (briefly, then cross-reference the owning review):
 - Security-related tests: auth bypass, injection, abuse paths (cross-reference: Security Review 20)
 
 Do not duplicate findings from those reviews — reference them.
+
+Additionally, flag missing test coverage as its own finding **here** if:
+
+- No test asserts `robots.txt` / `app/robots.ts` actually renders per-UA disallows (especially AI bots `GPTBot`, `ClaudeBot` etc) — a one-line regression can re-expose the crawl trap
+- No test asserts `429` + `Retry-After` on burst to a public read proc (e.g., 20 rapid `search.search` from same IP → at least one `TRPCError 429`)
+- No test asserts spoofed UA is still rate-limited / challenged (not bypassed by missing `x-forwarded-for` parsing)
+- No test asserts engagement counts ignore crawler UAs (IP+UA dedup still inflatable by JS crawlers)
+- No load script exists for crawl burst (`k6 run load/crawl-burst.js` with `100 VUs * 30s` on `/whats-on` permutations + `/api/trpc/search.search`)
+
+If `tests/` has zero abuse tests, that is a **High** — not Low — because without them, a future refactor can silently remove the limiter or the `revalidate` and you won't know until the bill arrives. Reference Security/Cost for the production impact, but file the coverage gap here.
+
+See `runbooks/abuse-red-team-playbook.md` for 6 scripted scenarios you can codify as `k6` or `vitest` integration tests.
 
 ---
 
@@ -335,11 +349,12 @@ Do not duplicate findings that belong in other reviews.
 For example:
 
 - A race condition in production code → Business Logic Review (160)
-- Missing security tests → Security Review (20)
+- Missing security tests (but **missing abuse-test coverage** belongs here — the vuln belongs to Security, the absent test belongs to Testing)
 - Slow test suite as a performance issue → Performance Review (30)
 - Poor test naming as a readability issue → Code Quality Review (60)
+- Uncached SSR → Performance Review (but "no load test to prove it" → Testing)
 
-If the finding is about **test coverage or test quality** of an area, it belongs here. If it is about the production code itself, reference the owning review.
+If the finding is about **test coverage or test quality** of an area, it belongs here. If it is about the production code itself, reference the owning review. Always pair: "Security SEC-012 flags unthrottled search → Testing TEST-004 flags no 429 test for SEC-012".
 
 ---
 

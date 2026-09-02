@@ -124,12 +124,14 @@ Document:
 
 Document:
 
-- Sitemap
-- Robots.txt
-- Canonical strategy
+- Sitemap (generation method `app/sitemap.ts` vs static, `lastModified` correctness, whether it lists canonical URLs only without `?page`/`?sort`/`?filter` variants, `changeFrequency`/`priority` if used)
+- Robots.txt (`public/robots.txt` vs `app/robots.ts` — which takes precedence in Next.js, per-UA rules, Sitemap directive)
+- Canonical strategy (`alternates.canonical` / `<link rel="canonical">`, whether filtered/paginated variants canonicalise to clean base URL)
+- Robots directives (`noindex`, `nofollow` on filtered search, private routes)
 - Redirect strategy
 - HTTPS
 - Internationalisation (if applicable)
+- Infinite URL spaces: how many query-param permutations the app exposes (`/whats-on?q=&where=&category=&sort=&dateFrom=&radius=&priceMax=`, `/*?*page=`, `/*?*filter=`) and how they are collapsed
 
 ---
 
@@ -176,32 +178,40 @@ framework/20-review-framework.md
 
 ---
 
-# Crawlability
+# Crawlability — Including AI-Bot Split & Crawl-Trap Prevention
 
 Review:
 
-- Robots.txt
-- XML sitemap
-- Crawl depth
-- Internal links
-- Redirects
-- Broken links
+- Robots.txt (if Next.js: `app/robots.ts` generates it — verify file actually renders; `public/robots.txt` is ignored when `app/robots.ts` exists)
+- XML sitemap (canonical URLs only? `lastModified` real date vs `new Date()` meaningless now?)
+- Crawl depth / internal links / redirects / broken links
+- **AI crawler split rules (Critical for abuse):** Good bots respect `robots.txt`, bad scrapers spoof it — both matter. Verify:
+  - `User-agent: GPTBot`, `ChatGPT-User`, `ClaudeBot`, `Bytespider`, `CCBot`, `PerplexityBot`, `Google-Extended` → `Disallow: /` (you rarely need LLM training crawl)
+  - `User-agent: Googlebot`, `Bingbot` → allow canonical pages only
+  - `User-agent: *` → `Disallow: /api/`, `Disallow: /search`, `Disallow: /*?*sort=`, `Disallow: /*?*filter=`, `Disallow: /*?*page=`, plus any app-specific private paths (`/favorites`, `/dashboard`, `/admin`)
+  - `Sitemap: https://<domain>/sitemap.xml` present and points to canonical sitemap
+- **Infinite URL spaces:** Faceted search with 10+ query params generates `N!` permutations. If `robots.ts` does not disallow `/*?*` variants, every permutation is a crawlable near-duplicate that defeats CDN. Must be blocked at robots + collapsed at canonical layer.
 
-Evaluate whether search engines can efficiently crawl the site.
+Evaluate whether search engines can efficiently crawl the site **without generating a crawl storm**.
+
+Cross-reference: Security owns "can it be abused via crawl?", Performance owns "is it absorbed by CDN?", you own "is the robots/canonical contract correct?"
 
 ---
 
-# Indexability
+# Indexability — Canonical Collapse for Filtered Variants
 
 Review:
 
-- Meta robots
-- Canonical tags
-- Duplicate pages
-- Parameter handling
-- Noindex usage
+- Meta robots (`index, follow` vs `noindex, follow` for filtered/search variants)
+- Canonical tags (`<link rel="canonical">` or `metadata.alternates.canonical` in Next.js — must point filtered `/whats-on?sort=...&filter=...` to clean base URL so engines treat permutations as duplicates)
+- Duplicate pages / near-duplicates from query permutations
+- Parameter handling (Google Search Console param handling is gone — canonical + robots must do it)
+- Noindex usage (filtered search pages: `noindex, follow` if disallowed in robots is not enough — belt and suspenders)
+- Auth/private pages (`/favorites`, `/dashboard`) must be `noindex` regardless of robots
 
-Identify pages that may not index correctly.
+Identify pages that may not index correctly **or that generate duplicate crawl load**.
+
+If canonical is missing on `events/[slug]` or `venues/[slug]` + `whats-on`, crawlers traverse every `?page` variation as distinct content → flag High.
 
 ---
 
@@ -415,8 +425,10 @@ For example:
 - Slow rendering → Performance Analysis
 - Poor accessibility → Accessibility Analysis
 - Missing security headers → Security Audit
+- Unthrottled expensive search proc → Security Audit (you flag duplicates as SEO crawl waste, they flag as abuse)
+- Uncached SSR per hit → Performance Analysis (you flag as duplicate-URL problem)
 
-Reference the appropriate review instead.
+Reference the appropriate review instead. When bot abuse is caused by SEO misconfig (missing robots/canonical), file the root cause here and have Security reference your ID.
 
 ---
 

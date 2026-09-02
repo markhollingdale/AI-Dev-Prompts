@@ -286,7 +286,7 @@ Estimate unnecessary bandwidth expenditure.
 
 ---
 
-# Cost Amplification Risks
+# Cost Amplification Risks — Including Crawl Storm
 
 Identify technical implementations that could rapidly increase costs.
 
@@ -299,8 +299,20 @@ Examples:
 - Repeated API calls
 - Inefficient retries
 - Unbounded background jobs
+- **Uncached public SSR + DB per bot hit** (the crawl storm)
 
 Estimate potential impact.
+
+**Mandatory crawl-storm model (if Vercel + DB is used):**
+
+Document:
+
+- Requests: assume `100k requests` over `24h` (legitimate crawler) and `1k req/min` burst (aggressive scrape)
+- Current posture: if detail pages are `no-store` / no `revalidate` and `app/api/trpc` is `no-store`, then `100k hits = 100k SSR renders + 100k * (generateMetadata query + page query + N client tRPC fetches)` with PostGIS.
+- Model before/after: `uncached cost = 100k * (Serverless GB-s + DB compute + Data Transfer)` vs `ISR 300s cost = ~ (unique pages / 300s) * DB cost + 99% CDN hits (≈ $0)`. Even rough `$/1k requests` is enough to justify P0 vs P2.
+- Cross-reference Performance (is it cacheable?) and Security (is it throttled?) — you own "how much does the storm cost?".
+
+Flag as **Critical** if a single `search.search` with PostGIS can be called anon without limit and without cache — that proc alone can dominate the bill.
 
 ---
 
@@ -337,19 +349,18 @@ If exact figures are unavailable, provide reasoned estimates based on the implem
 
 ---
 
-# Cost Controls
+# Cost Controls — Including Platform Spend Caps
 
 Review:
 
-- Rate limiting
-- Usage quotas
-- Soft limits
-- Hard limits
-- Billing alerts
-- Spend monitoring
-- Administrative controls
+- Rate limiting (and whether it actually covers **read** procs — reference Security inventory)
+- Usage quotas / soft & hard limits
+- Billing alerts (if Vercel: Spend Alerts 50/75/100%; if Neon/Supabase: compute/billing alerts)
+- Spend monitoring / dashboards / log-based billing alerts
+- Administrative controls (Spend Limits / Pause project, Attack Challenge Mode toggle access)
+- Caching as cost control (if public pages are ISR-cached, bot traffic is absorbed at CDN for ~$0 — cheapest control)
 
-Evaluate how effectively the application prevents unexpected expenditure.
+Evaluate how effectively the application prevents unexpected expenditure. An expensive uncached search with no limit and no alerts is a **Critical** cost control failure even if code quality is high.
 
 ---
 
@@ -402,12 +413,13 @@ Do not duplicate findings that belong in other reviews.
 
 For example:
 
-- Slow queries → Performance Analysis
-- Missing monitoring → Production Readiness
+- Slow queries → Performance Analysis (but flag cost here if they run uncached per bot hit)
+- Missing monitoring / missing Spend Alerts → Production Readiness (reference their ID)
 - Poor architecture → Architecture Analysis
-- Security vulnerabilities → Security Audit
+- Security vulnerabilities → Security Audit (but estimate $ impact here)
+- Missing robots/canonical → SEO Analysis
 
-Reference the appropriate review instead.
+Reference the appropriate review instead. When a single unthrottled uncached search causes both abuse and cost, file abuse in Security, cacheability in Performance, dollar figure here, and cross-reference IDs.
 
 ---
 

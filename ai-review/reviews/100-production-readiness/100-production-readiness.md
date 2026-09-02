@@ -151,6 +151,19 @@ Document:
 
 ---
 
+## 11. Platform Firewall, Bot & Spend Controls
+
+Document (conditional — only if the platform is used):
+
+- If Vercel: Firewall state — Bot Management ON/OFF, custom rate rules (e.g., 100 req/min on `/api/trpc` or `/api/*`), Managed Challenge vs Block action, Attack Challenge Mode familiarity
+- If Cloudflare / other CDN: equivalent bot/WAF rules
+- Spend controls: Vercel Billing → Spend Management alerts at 50/75/100%, Spend Limits / Pause project; Neon/Supabase plan limits, compute auto-suspend, `max_connections` / pool config
+- `vercel.json` headers, `next.config.ts` headers, `middleware.ts` existence and runtime (`edge` vs `nodejs`)
+- `app/robots.ts` vs `public/robots.txt` — which will ship
+- `app/sitemap.ts` / `public/sitemap.xml` hygiene
+
+---
+
 # Phase 2 - Production Assessment
 
 Create:
@@ -303,6 +316,7 @@ Review:
 - Session management
 - Resource limits
 - Autoscaling compatibility
+- Crawl elasticity: what happens under 100k bot hits/hr if CDN is bypassed (connections exhausted, Serverless concurrency throttled, DB pool queued)
 
 Evaluate readiness for increased demand.
 
@@ -345,6 +359,7 @@ Review:
 - Traces
 - Dashboards
 - Alerting
+- Bot visibility: can you distinguish bot vs human traffic in logs/analytics? Are `User-Agent`, `x-forwarded-for`, route, and cache `HIT/MISS` logged? Is there a dashboard for 429 rate, bot UA share, and function invocations?
 
 Assess whether production behaviour can be understood and diagnosed.
 
@@ -359,8 +374,40 @@ Review:
 - Data recovery
 - Service continuity
 - Operational resilience
+- Financial continuity: do Spend Alerts + Spend Limits + manual Attack Challenge Mode toggle constitute a bill-runaway kill-switch? Who can toggle it at 2am?
 
 Identify risks to business continuity.
+
+---
+
+# Platform Firewall & Spend Safeguards — Pre-Launch Click Checklist (Manual, Not Code)
+
+You must verify these in the **Vercel / Neon / Supabase dashboards** — code review alone cannot prove they are ON.
+
+**If Vercel is used, verify:**
+
+- [ ] Project → Settings → Security / Firewall → **Bot Management** ON (Managed Challenge for unverified bots — catches spoofed GPTBot)
+- [ ] Firewall → Custom Rules → **Rate limit**: `if path startsWith /api/trpc then rate limit 100 req/min per IP` (or 60/min on expensive search), action `Challenge` or `Block` with `429`
+- [ ] Know where **Attack Challenge Mode** is (Firewall tab — single toggle to challenge all traffic during a spike). Document who can toggle and drill it once.
+- [ ] Billing → Spend Management → **Spend Alerts** at `50%`, `75%`, `100%` of budget; **Spend Limits / Pause project** if tier supports it
+- [ ] `middleware.ts` (if present) uses `edge` runtime and is <50 lines — verify it does UA block before DB, not after
+- [ ] `vercel.json` / `next.config.ts` security + cache headers are shipped (inspect deployment → Headers tab)
+
+**If Neon is used, verify:**
+
+- [ ] Project → Settings → Compute → **Auto-suspend** tuned, `max_connections` and PgBouncer (pooled connection string) in use — not direct `postgres://` per Serverless invocation
+- [ ] Branching / PITR enabled for recovery (reference Backups)
+- [ ] Billing alerts ON
+
+**If Supabase is used, verify:**
+
+- [ ] Project → Database → **Connection pooling** (PgBouncer) ON, pool size vs Serverless concurrency modelled; `max_connections` not trivially exhaustible by `no-store` crawl
+- [ ] Auth → Rate limits reviewed
+- [ ] Billing alerts ON
+
+Reference docs: `../runbooks/vercel-neon-manual-setup.md` (add to repo) or link to Vercel/Neon docs. Flag any unchecked item as **High** — it costs real money from day one.
+
+Dedup: Security owns "is rate limit correct in code?", Performance owns "is it cached?", you own "is the platform switch actually ON?"
 
 ---
 

@@ -180,6 +180,7 @@ Consider:
 - Which reviews are not production ready?
 - What is the overall confidence level?
 - If reviews are missing, state that the verdict is provisional.
+- **Manual gate:** has `docs/runbooks/pre-live-gate.md` been walked and signed? If not, verdict cannot be `YES`.
 
 State clearly:
 
@@ -187,7 +188,31 @@ State clearly:
 Production Ready: YES / NO / PROVISIONAL
 ```
 
-Explain why.
+Explain why. If `Production Ready: YES` but the pre-live gate is unsigned, downgrade to `PROVISIONAL` and explain.
+
+---
+
+## 6b. Manual Runbooks & Pre-Live Gate (Cannot Be Verified From Code)
+
+You **must** surface manual checks so the human does not miss them — code reports alone are insufficient.
+
+Check in the repo (and in Production Readiness Phase 1 doc) whether these exist and are signed:
+
+- `docs/runbooks/vercel-neon-manual-setup.md` — Vercel Firewall + Spend + Neon/Supabase pooling (dashboard toggles)
+- `docs/runbooks/abuse-red-team-playbook.md` — 6 scripted curl/k6 attack scenarios
+- `docs/runbooks/pre-live-gate.md` — night-before gate with sign-off table
+
+Report:
+
+- For each runbook: `Present / Missing`, and for `pre-live-gate.md`: `Signed (date) / Unsigned`
+- If any runbook is missing → list as a **gap** (not a code finding, but a process gap).
+- If `pre-live-gate.md` is unsigned → add explicit warning:
+
+```
+> ⚠️ MANUAL GATE NOT SIGNED: Walk docs/runbooks/pre-live-gate.md (sections 1-4) and paste curl/k6/drill evidence before trusting `Production Ready: YES`.
+```
+
+This section is mandatory even when all code reviews are `YES` — the bill-related toggles live outside code.
 
 ---
 

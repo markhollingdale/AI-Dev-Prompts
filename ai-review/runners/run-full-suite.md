@@ -84,6 +84,7 @@ When all 16 reviews are complete:
 - Read `../ai-review/reviews/999-summary/999-summary.md` and follow it.
 - Write `[project]-999-summary.md`.
 - If any review was skipped, follow the Summary's partial-run warning rules.
+- **Always include §6b Manual Runbooks & Pre-Live Gate** — if `docs/runbooks/pre-live-gate.md` is unsigned, the Summary must emit `⚠️ MANUAL GATE NOT SIGNED` and keep `Production Ready: PROVISIONAL` even if all code scores are green.
 
 ### 4. Offer the Specification (140)
 

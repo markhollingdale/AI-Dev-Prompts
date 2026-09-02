@@ -457,6 +457,23 @@ For example:
 
 Reference the appropriate review instead.
 
+**Mandatory manual-verification finding — you must always emit this:**
+
+Even if all code checks pass, you **must** create at least one finding that surfaces the dashboard runbooks, because code review cannot prove they are ON. Use this template (High; upgrade to Critical if no evidence of any manual check):
+
+```
+## PRD-MANUAL-001 — Manual Dashboard & Pre-Live Gate Verification Required
+
+Severity: High
+Problem: The following platform controls cannot be verified from code and require human confirmation before `PRODUCTION READY: YES`: Vercel Bot Management, Firewall rate rule on /api/trpc, Attack Challenge Mode owner, Spend Alerts 50/75/100%, Neon/Supabase pooled URL + PITR + restore drill date, synthetic smoke. See docs/runbooks/vercel-neon-manual-setup.md and docs/runbooks/pre-live-gate.md.
+
+Recommendation: Walk docs/runbooks/pre-live-gate.md gate checklist (sections 1-4) and paste curl outputs + drill dates into this report's Phase 1 doc. Do not mark production ready until signed.
+
+Cross-reference: Security owns limiter correctness, Performance owns cache, Cost owns spend model — you own proof the switch is ON.
+```
+
+If `docs/runbooks/pre-live-gate.md` is not present in the repo or has no sign-off date, state that explicitly in the finding.
+
 ---
 
 # Positive Findings
